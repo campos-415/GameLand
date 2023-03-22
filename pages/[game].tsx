@@ -24,36 +24,38 @@ import ReactPlayer from "react-player";
 import { useRecoilState } from "recoil";
 import { darkState } from "../atoms/darkAtom";
 import comingSoon from "../public/assets/comingSoon.jpg";
-import { Data, Game, Movie, Video } from "../typings";
+import { Data, Game, Movie, Stores, Video } from "../typings";
+import { renderPlatformIcons, renderStoreIcons } from "../constants/gameConst";
 
 function Game() {
   const [dark, setDark] = useRecoilState(darkState);
   const router = useRouter();
-  const id = router.asPath;
+  const { game } = router.query;
   const [movie, setMovie] = useState<Movie>();
-  const [game, setGame] = useState<Game>();
+  const [games, setGames] = useState<Game>();
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [showStore, setShowStore] = useState(false);
+  console.log(game);
 
   async function fetchMovie() {
     setLoading(true);
     const [movies, games] = await Promise.all([
       fetch(
-        `https://api.rawg.io/api/games${id}/movies?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+        `https://api.rawg.io/api/games/${game}/movies?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
       ).then((res) => res.json()),
       fetch(
-        `https://api.rawg.io/api/games${id}?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+        `https://api.rawg.io/api/games/${game}?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
       ).then((res) => res.json()),
     ]);
     setMovie(movies.results);
-    setGame(games);
+    setGames(games);
 
     setLoading(false);
   }
 
   // FOR THE PLAYER TO AUTOMATICALLY PLAY WHEN HOVERING
-
 
   // const videoRef = useRef<any>();
 
@@ -79,24 +81,24 @@ function Game() {
 
   useEffect(() => {
     fetchMovie();
-  }, []);
+  }, [game]);
   console.log(game);
   return (
     <>
       <Head>
-        <title>Master Player - {game?.name}</title>
+        <title>Master Player - {games?.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div
-        className={`scrollbar-hidden flex flex-col space-y-2 py-16 md:space-y-4 justify-end ${
+        className={`scrollbar-hidden flex flex-col space-y-2 py-16 md:space-y-4 justify-end overflow-x-hidden ${
           dark ? "bg-gradient-to-b-dark" : "bg-gradient-to-b-light"
         } h-screen`}
-        key={game?.id}>
-        <div className="absolute top-0 left-0 -z-10 h-screen w-screen">
+        key={games?.id}>
+        <div className="absolute top-0 left-0 -z-10 h-screen w-screen overflow-x-hidden">
           <Image
-            className="object-cover overflow-x--hidden"
-            src={game?.background_image}
+            className="object-cover overflow-x-hidden"
+            src={games?.background_image}
             alt="bannerImg"
             fill
             priority
@@ -108,64 +110,85 @@ function Game() {
               className={`${
                 !dark ? "text-black" : " "
               } text-2xl md:text-4xl lg:text-7xl `}>
-              {game?.name}
+              {games?.name}
             </h1>
-            {game?.esrb_rating?.name === "Teen" && (
-              <Image src={esrb_t} width={50} height={50} alt="rating" />
-            )}
-            {game?.esrb_rating?.name === "Mature" && (
-              <Image src={esrb_m} width={50} height={50} alt="rating" />
-            )}
-            {game?.esrb_rating?.name === "Everyone 10+" && (
-              <Image src={esrb_10} width={50} height={50} alt="rating" />
-            )}
-            {game?.esrb_rating?.name === "Everyone" && (
-              <Image src={esrb_e} width={50} height={50} alt="rating" />
-            )}
-            {game?.esrb_rating?.name === "Adults Only" && (
-              <Image src={esrb_a} width={50} height={50} alt="rating" />
-            )}
           </div>
           <div className="  max-w-[1240px] flex flex-col items-start justify-center px-12 ">
-            <p
-              className={` max-w-xs text-xs md:max-w-lg md:text-lg lg:text-2xl lg:max-w-2xl  h-[198px] ${
-                showMore ? "overflow-scroll" : "overflow-clip"
-              }   ${!dark ? "text-black" : ""}`}>
-              {game?.description_raw}
-            </p>
-            {!showMore ? (
-              <button
-                className={`absolute bottom-[60px] left-0 px-12 text-[#1d9bf0] `}
-                onClick={() => setShowMore(true)}>
-                Show More
-              </button>
-            ) : (
-              <button
-                className={`absolute flex items-center bottom-[60px] left-0 px-12 text-[#1d9bf0]`}
-                onClick={() => setShowMore(false)}>
-                Show less
-                <CgScrollV />
-              </button>
-            )}
+            <div className="flex w-48 text-lg justify-start space-x-1 pt-3 ">
+              {renderPlatformIcons(games?.platforms)}
+            </div>
           </div>
 
-          <div className="flex space-x-3 px-12 mt-12">
-            <button className="bannerButton bg-white text-black">
+          <div className="flex space-x-3 px-12 mt-4">
+            <button
+              className="bannerButton bg-white text-black"
+              onClick={() => setShowStore(!showStore)}>
               {" "}
               <FaShoppingBag className="h-4 w-4 text-black md:h-7 md:w-7" /> Buy
             </button>
             <button
               onClick={() => {
-                router.push(`/${game?.id}/#info`);
+                router.push(`/${games?.id}/#info`);
               }}
               className="bannerButton bg-[gray]/70">
               More Info{" "}
               <InformationCircleIcon className="h-4 w-4 text-black md:h-7 md:w-7" />
             </button>
           </div>
+          <div className={`${showStore ? "" : "hidden"} px-12 mt-4`}>
+            <div className="flex w-48 text-lg justify-start space-x-1 hover:cursor-pointer">
+              {renderStoreIcons(games?.stores)}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="info"
+        className={` relative top-0 scrollbar-hidden flex flex-col space-y-2 py-16 md:space-y-4 justify-end  ${
+          dark ? "bg-gradient-to-b-dark" : "bg-gradient-to-b-light"
+        } h-screen`}>
+        <div className="absolute top-0 left-0 -z-10 h-[100vh] w-[100vw] ">
+          <Image
+            className="object-cover "
+            src={games?.background_image_additional}
+            alt="bannerImg"
+            fill
+            priority
+          />
+        </div>
+        <div className="relative">
+          <div
+            className={` max-w-[1240px] mt-32 space-x-4 items-center flex flex-col justify-start px-12 ${
+              showMore ? "flex " : "hidden"
+            }`}>
+            <p className={`${!dark ? "text-black" : " "} `}>
+              {games?.description_raw}
+            </p>
+          </div>
+
+          <div className=" flex space-x-3 px-12 mt-4">
+            {!showMore ? (
+              <button
+                onClick={() => {
+                  setShowMore(true);
+                }}
+                className="bannerButton bg-[gray]/70">
+                More Info{" "}
+                <InformationCircleIcon className="h-4 w-4 text-black md:h-7 md:w-7" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setShowMore(false);
+                }}
+                className="bannerButton bg-[gray]/70">
+                Less Info{" "}
+                <InformationCircleIcon className="h-4 w-4 text-black md:h-7 md:w-7" />
+              </button>
+            )}
+          </div>
         </div>
 
-        <div className={` flex justify-start `} >
+        <div className={` flex justify-start `}>
           {movie ? (
             movie
               ?.map((v: Data) => (
@@ -174,7 +197,8 @@ function Game() {
                     url={v?.data?.max}
                     width="100%"
                     heigth="100%"
-                    playing
+                    playing={playing}
+                    controls
                   />
                 </>
               ))
@@ -182,31 +206,6 @@ function Game() {
           ) : (
             <></>
           )}
-        </div>
-      </div>
-      <div
-        id="info"
-        className={`${!dark ? "bg-[rgb(235,235,235)]" : " "} p-32`}>
-        {" "}
-        <h2
-          className={`sm:text-lg lg:text-2xl  max-w-[1240px] mx-auto text-center mb-8 ${
-            !dark ? "text-black" : " "
-          }`}>
-          ScreenShots
-        </h2>
-        <div className="flex items-center space-x-3 justify-center max-w-[1240px] mx-auto">
-          <Image
-            src={game?.background_image}
-            width={300}
-            height={300}
-            alt="/"
-          />
-          <Image
-            src={game?.background_image_additional}
-            width={300}
-            height={300}
-            alt="/"
-          />
         </div>
       </div>
     </>

@@ -6,14 +6,16 @@
   border: 1px solid red !important
 } */
 
+
 @layer base {
   body {
-    @apply bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-[#1d9bf0] !scrollbar-corner-[#141414];
+    @apply  bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-[#1d9bf0] !scrollbar-corner-[#141414];
   }
 
   header {
     @apply fixed top-0 z-50 flex w-full items-center justify-between  py-4 transition-all  lg:py-6
   }
+  
 }
 
 

@@ -1,24 +1,5 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import {
-  SiNintendo3Ds,
-  SiNintendoswitch,
-  SiPlaystation3,
-  SiPlaystation4,
-  SiPlaystation5,
-  SiPlaystationvita,
-  SiWii,
-  SiWiiu,
-} from "react-icons/si";
-import { TiVendorMicrosoft } from "react-icons/ti";
-import { RiXboxLine } from "react-icons/ri";
-import {
-  IoLogoAndroid,
-  IoLogoApple,
-  IoLogoPlaystation,
-  IoLogoSteam,
-  IoLogoXbox,
-} from "react-icons/io";
 import { Game, Genres, Platform, Stores } from "../typings";
 import { useRecoilState } from "recoil";
 import { darkState } from "../atoms/darkAtom";
@@ -28,10 +9,48 @@ import esrb_t from "../public/assets/ratings/esrb-t.svg";
 import esrb_e from "../public/assets/ratings/esrb-e.svg";
 import esrb_a from "../public/assets/ratings/esrb-a.svg";
 import esrb_10 from "../public/assets/ratings/esrb-10.svg";
+import {
+
+  renderPlatformIcons,
+} from "../constants/gameConst";
 
 interface Props {
-  games: Game;
+  games?: Game;
 }
+
+const getMetacriticClassName = (metacritic?: number | string) => {
+  if (metacritic === undefined) {
+    return "text-blue-500 border-blue-500";
+  }
+
+  if (metacritic <= 64) {
+    return "text-red-500 border-red-500";
+  }
+
+  if (metacritic >= 65 && metacritic <= 84) {
+    return "text-yellow-500 border-yellow-500";
+  }
+
+  if (metacritic >= 75) {
+    return "text-green-500 border-green-500";
+  }
+  if (metacritic === "N/A") {
+    return "text-blue-500 border-blue-500";
+  }
+
+  return "";
+};
+
+const esrbImages: { [key: string]: string } = {
+  Teen: esrb_t,
+  Mature: esrb_m,
+  "Everyone 10+": esrb_10,
+  Everyone: esrb_e,
+  "Adults Only": esrb_a,
+  "Rating Pending": esrb_e,
+};
+
+
 
 function NowTrending({ games }: Props) {
   const [dark, setDark] = useRecoilState(darkState);
@@ -41,7 +60,6 @@ function NowTrending({ games }: Props) {
   const [score, setScore] = useState();
 
 
-
   useEffect(() => {
     setLoading(false);
     setTimeout(() => {
@@ -49,7 +67,6 @@ function NowTrending({ games }: Props) {
     }, 500);
     setLoading(true);
   }, []);
-
 
   return (
     <Link href={`/${games?.id}`}>
@@ -97,15 +114,15 @@ function NowTrending({ games }: Props) {
         </div>
       ) : (
         <div
-          className={` rounded-md flex justify-center ml-3  mb-12 hover:cursor-pointer ${
+          className={` rounded-sm flex justify-center ml-3 group mb-12 hover:cursor-pointer ${
             dark ? "bg-[#1d1c1c]" : " bg-slate-200"
           } items-center`}>
-          <div className="relative flex flex-col justify-center group">
+          <div className=" relative flex flex-col justify-center ">
             <div
-              className=" relative group h-28 min-w-[300px]  cursor-pointer 
+              className="relative h-28 min-w-[300px]  cursor-pointer 
           transition duration-200 ease-in-out ">
               <Image
-                className="rounded-md object-cover md:rounded"
+                className="rounded-t-md object-cover md:rounded"
                 src={games?.background_image}
                 fill
                 alt="/"
@@ -117,118 +134,42 @@ function NowTrending({ games }: Props) {
                 !dark ? "text-black" : ""
               }`}>
               <div className="flex w-48 text-lg justify-start space-x-1 ">
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "PlayStation 5" && <SiPlaystation5 />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "PlayStation 4" && (
-                      <IoLogoPlaystation />
-                    )
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "PlayStation 3" && <SiPlaystation3 />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "PS Vita" && <SiPlaystationvita />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Xbox One" && <IoLogoXbox />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Xbox 360" && <RiXboxLine />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) => plat.platform.name === "Wii" && <SiWii />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Wii U" && <SiWiiu />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Nintendo Switch" && (
-                      <SiNintendoswitch />
-                    )
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Nintendo DS" && <SiNintendo3Ds />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Linux" && <IoLogoSteam />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "PC" && <TiVendorMicrosoft />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "macOS" && <IoLogoApple />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "iOS" && <IoLogoApple />
-                )}
-                {games?.platforms.map(
-                  (plat: Platform) =>
-                    plat.platform.name === "Android" && <IoLogoAndroid />
-                )}
+                {renderPlatformIcons(games?.platforms)}
               </div>
-              <div>
+              <div className="flex space-x-2  ">
+                <div className="">
+                  {game?.esrb_rating?.name && (
+                    <Image
+                      src={esrbImages[game?.esrb_rating?.name]}
+                      width={20}
+                      height={20}
+                      alt="rating"
+                    />
+                  )}
+                </div>
                 <p
-                  className={` px-1 border 
-                    ${games?.metacritic <= 64 && `text-red-500 border-red-500`}
-                    ${
-                      games?.metacritic >= 65 &&
-                      games?.metacritic <= 84 &&
-                      `text-yellow-500 border-yellow-500`
-                    }
-                    ${
-                      games?.metacritic >= 75 &&
-                      `text-green-500 border-green-500`
-                    }
-                   `}>
-                  {games?.metacritic ? games?.metacritic : "N/A"}
+                  className={`px-1 border ${getMetacriticClassName(
+                    games?.metacritic
+                  )}`}>
+                  {games?.metacritic ?? "N/A"}
                 </p>
               </div>
             </div>
-            <div className={`mx-2 flex space-x-1 ${!dark ? "invert" : ""}`}>
+            <div
+              className={`mx-2 flex space-x-1 ${!dark ? "invert" : ""} pb-8`}>
               <h1 className="overflow-scroll max-w-[250px] max-h-[25px] font-bold ">
                 {game?.name}
               </h1>
-              {game?.esrb_rating?.name === "Teen" && (
-                <Image src={esrb_t} width={20} height={20} alt="rating" />
-              )}
-              {game?.esrb_rating?.name === "Mature" && (
-                <Image src={esrb_m} width={20} height={20} alt="rating" />
-              )}
-              {game?.esrb_rating?.name === "Everyone 10+" && (
-                <Image src={esrb_10} width={20} height={20} alt="rating" />
-              )}
-              {game?.esrb_rating?.name === "Everyone" && (
-                <Image src={esrb_e} width={20} height={20} alt="rating" />
-              )}
-              {game?.esrb_rating?.name === "Adults Only" && (
-                <Image src={esrb_a} width={20} height={20} alt="rating" />
-              )}
             </div>
-            <br />
             <div
-              className={`absolute -bottom-[196px] hidden group-hover:inline  rounded  h-[200px] ${
-                dark ? "bg-[#1d1c1c]" : " bg-slate-200 text-black px-2"
-              } z-[20] w-full `}>
+              className={`absolute -bottom-[200px] hidden group-hover:inline group-hover:z-50  rounded-b-md  h-full ${
+                dark ? "bg-[#1d1c1c]" : " bg-slate-200 text-black "
+              }  w-full px-2 pt-2 `}>
               <p className="text-sm flex items-center justify-between border-b border-gray-600 mb-3">
                 Released Date:{" "}
                 <span className="text-[#4a4949] text-xs">{game?.released}</span>
               </p>
-              <div className="flex justify-between border-b border-gray-600 mb-3">
+              <div className="flex justify-between border-b border-gray-600 mb-3 ">
                 <p className=" items-center">Genres: </p>
                 <div>
                   {game?.genres.map((genre: Genres) => (
@@ -243,12 +184,25 @@ function NowTrending({ games }: Props) {
               </div>
               <div className="flex justify-between border-b border-gray-600 mb-3">
                 <p className=" items-center">Platforms: </p>
-                <div className="h">
+                <div className="">
                   {game?.platforms.map((plat: Platform) => (
                     <span
                       className=" px-1 text-[#4a4949] text-xs w-full "
                       key={plat?.name}>
                       {plat?.platform.name}
+                      {", "}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-between border-b border-gray-600 mb-3 ">
+                <p className=" items-center">Stores: </p>
+                <div className="">
+                  {game?.stores?.map((store: Stores) => (
+                    <span
+                      className=" px-1 text-[#4a4949] text-xs w-full "
+                      key={store?.id}>
+                      {store?.store?.name}
                       {", "}
                     </span>
                   ))}

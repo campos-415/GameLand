@@ -5,12 +5,13 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { darkState } from "../atoms/darkAtom";
+import CardComponent from "../components/CardComponent";
 import Feature from "../components/Feature";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import NowTrending from "../components/NowTrending";
 import footerImg from "../public/assets/2.png";
-import { Game } from "../typings";
+import { Game, Genres } from "../typings";
 
 interface Props {
   action: Game[] | null;
@@ -19,7 +20,7 @@ interface Props {
   sports: Game[] | null;
   shooter: Game[] | null;
   simulation: Game[] | null;
-  features: Game[] | null;
+  features: Genres[] ;
   newGames: Game[] | null;
 }
 
@@ -42,6 +43,10 @@ const Genres = ({
       </Head>
 
       <main className="relative pl-4 pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
+
+        <section>
+          <CardComponent genres={features} />
+        </section>
         <section id="action" className="max-w-[1240px] mx-auto flex items-center justify-center">
           <Hero features={action} title="Action" />
         </section>
@@ -60,6 +65,7 @@ const Genres = ({
         <section id="simulation" className="md:space-y-24 ">
           <Hero features={simulation} title="Simulation" />
         </section>
+
       </main>
     </div>
   );
@@ -97,10 +103,10 @@ export const getServerSideProps = async () => {
       `https://api.rawg.io/api/games?genres=simulation&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
     fetch(
-      `https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}&ordering=-released&page=10`
+      `https://api.rawg.io/api/genres?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
     fetch(
-      `https://api.rawg.io/api/games?dates=2023-01-31,2023-03-01&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+      `https://api.rawg.io/api/genres?&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
   ]);
 

@@ -26,7 +26,7 @@ function Feature({ features }: Props) {
       <div className="absolute top-0 left-0 h-[35vh] w-full max-w-[1240px]">
         <Image
           className="object-cover"
-          src={games?.background_image}
+          src={games?.background_image ?? ""}
           alt="bannerImg"
           fill
         />

@@ -14,7 +14,10 @@ module.exports = {
         "gradient-to-b-dark":
           "linear-gradient(to bottom, rgba(20,20,20,.15) 0, rgba(20,20,20,.25) 25%, rgba(20,20,20,.45) 29%, rgba(20,20,20,.65) 44%, rgb(20,20,20,.85) 68%, rgb(20,20,20,100) 100%);",
         "gradient-to-b-light":
-          "linear-gradient(to bottom, rgba(235,235,235,.15) 0, rgba(235,235,235,.25) 25%, rgba(235,235,235,.45) 29%, rgba(235,235,235,.65) 44%, rgb(235,235,235,.85) 68%, rgb(235,235,235,100) 100%);",
+          "linear-gradient(to bottom, rgba(200,200,200,.15) 0, rgba(200,200,200,.25) 25%, rgba(200,200,200,.45) 29%, rgba(200,200,200,.65) 44%, rgb(200,200,200,.85) 68%, rgb(200,200,200,100) 100%);",
+      },
+      scrollBehavior: {
+        smooth: "smooth",
       },
     },
   },

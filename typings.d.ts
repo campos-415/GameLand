@@ -61,13 +61,17 @@ export interface Screenshots {
 export interface Genres {
   id: number;
   name: string;
+  games: Games
+  games_count: number
+  slug: string
+  image_background: string
 }
 
 export interface Stores {
+  store: any
   id: number
   name: string
   slug: string
-  platform: [] | ""
 }
 
 export interface Games {
@@ -75,6 +79,7 @@ export interface Games {
   name: string
   background_image: string
   slug: string
+  added: number
 }
 export interface esrbRating {
   id: number
