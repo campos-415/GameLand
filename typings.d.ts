@@ -1,8 +1,9 @@
+import { StaticImageData } from "next/image"
 
 export interface Game {
   name: string
-  background_image: string
-  background_image_additional: string
+  background_image: StaticImport
+  background_image_additional: StaticImport
   genres: []
   id: number
   metacritic: number
@@ -17,11 +18,29 @@ export interface Game {
   games: [] 
   image_background: string
   description_raw: string
-  image: any
+  image: string
   guid: string
-  data: any
+  data: Data
   max: string
   preview: string
+  platforms: []
+  results: []
+  esrb_rating: esrbRating
+
+}
+
+export interface Data {
+  max: string;
+  480: string;
+  data: Data;
+}
+
+export interface Movie {
+  data: Data
+  id: number
+  preview: string
+  name: string
+  map: any
 }
 
 export interface Tags {
@@ -39,7 +58,7 @@ export interface Screenshots {
   image: string
 }
 
-export interface Genre {
+export interface Genres {
   id: number;
   name: string;
 }
@@ -48,6 +67,7 @@ export interface Stores {
   id: number
   name: string
   slug: string
+  platform: [] | ""
 }
 
 export interface Games {
@@ -56,8 +76,28 @@ export interface Games {
   background_image: string
   slug: string
 }
+export interface esrbRating {
+  id: number
+  name: string
+  slug: string
+}
 
 export interface Music {
   id: number
   name: string
+}
+
+export interface Platform {
+  id: number
+  name: string
+  platform:  Platform
+  
+}
+
+export interface Video {
+  play: () => {};
+  pause: () => {};
+  currentTime: number;
+  addEventListener: EventListenerObject;
+  removeEventListener: EventListenerObject;
 }

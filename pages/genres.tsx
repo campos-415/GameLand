@@ -6,7 +6,6 @@ import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { darkState } from "../atoms/darkAtom";
 import Feature from "../components/Feature";
-import Genres from "../components/Genres";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import NowTrending from "../components/NowTrending";
@@ -24,8 +23,7 @@ interface Props {
   newGames: Game[] | null;
 }
 
-
-const Home = ({
+const Genres = ({
   racing,
   action,
   adventure,
@@ -39,36 +37,37 @@ const Home = ({
   return (
     <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
       <Head>
-        <title>Master Player - Home</title>
+        <title>Master Player - Genres</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="relative pl-4 pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
-        <section className="max-w-[1240px] mx-auto flex items-center justify-center">
-
-          <Hero features={newGames} title="New Release" />
+        <section id="action" className="max-w-[1240px] mx-auto flex items-center justify-center">
+          <Hero features={action} title="Action" />
         </section>
-        <Feature features={features} />
-        <section className="md:space-y-24 ">
-          <Genres title="Action" genre={action} />
-          <Genres title="Racing" genre={racing} />
-          <Genres title="Adventure" genre={adventure} />
-          <Feature features={features} />
+        <section id="racing" className="md:space-y-24 ">
           <Hero features={racing} title="Racing" />
-          <Genres title="Sports" genre={sports} />
-          <Genres title="Shooter" genre={shooter} />
-          <Genres title="Simulation" genre={simulation} />
         </section>
-        <Feature features={action} />
+        <section id="adventure" className="md:space-y-24 ">
+          <Hero features={adventure} title="Adventure" />
+        </section>
+        <section id="sports" className="md:space-y-24 ">
+          <Hero features={sports} title="Sports" />
+        </section>
+        <section id="shooter" className="md:space-y-24 ">
+          <Hero features={shooter} title="Shooter" />
+        </section>
+        <section id="simulation" className="md:space-y-24 ">
+          <Hero features={simulation} title="Simulation" />
+        </section>
       </main>
     </div>
   );
 };
 
-export default Home;
+export default Genres;
 
 export const getServerSideProps = async () => {
-
   const [
     action,
     racing,
@@ -104,7 +103,6 @@ export const getServerSideProps = async () => {
       `https://api.rawg.io/api/games?dates=2023-01-31,2023-03-01&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
   ]);
-  
 
   return {
     props: {

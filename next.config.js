@@ -11,6 +11,7 @@ module.exports = {
       "www.giantbomb.com",
       "media.rawg.io",
       "steamcdn-a.akamaihd.net",
+      "rb.gy",
     ],
   },
 };
