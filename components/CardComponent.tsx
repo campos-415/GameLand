@@ -90,7 +90,7 @@ function CardComponent({ genres, title }: Props) {
                           <>
                             <Link href={`/${game.id}`}>
                               <div className="flex items-center justify-between h-6 ">
-                                <p className="underline hover:cursor-pointer">
+                                <p className="underline hover:cursor-pointer overflow-hidden w-54">
                                   {game.name}{" "}
                                 </p>
                                 <span className="flex items-center space-x-1">

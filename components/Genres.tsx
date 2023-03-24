@@ -31,7 +31,7 @@ function Genres({ genre, title }: Props) {
   return (
     <div className="h-40">
       <h2
-        className={`w-56 cursor-pointer text-sm font-semibold  transition duration-200 hover:text-[#5156e5] md:text-2xl ${
+        className={`max-w-[1240px] cursor-pointer text-sm font-semibold  transition duration-200 hover:text-[#5156e5] md:text-2xl ${
           dark ? "text-white" : "text-black"
         }`}>
         {title}

@@ -43,7 +43,7 @@ const Home = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pl-4 pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
+      <main className="relative pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
         <section className="max-w-[1240px] mx-auto flex items-center justify-center">
 
           <Hero features={newGames} title="New Release" />

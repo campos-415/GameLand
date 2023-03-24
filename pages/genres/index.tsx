@@ -29,7 +29,7 @@ const Genres = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pl-4 pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
+      <main className="relative pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
         <section>
           <CardComponent title="Genres" genres={genre} />
         </section>

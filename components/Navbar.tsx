@@ -8,18 +8,22 @@ import {
   HomeIcon,
   InboxIcon,
   MoonIcon,
+  SearchCircleIcon,
   SunIcon,
   UserIcon,
 } from "@heroicons/react/outline";
 import Image from "next/image";
 import { GiPistolGun } from "react-icons/gi";
+import { HiOutlineLightBulb } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { darkState } from "../atoms/darkAtom";
+import { darkState, inputState } from "../atoms/darkAtom";
 import LogoImage from "../public/assets/2.png";
 import SidebarLink from "./SidebarLink";
+import { AiOutlineClose, AiOutlineMail, AiOutlineMenu } from "react-icons/ai";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
@@ -28,6 +32,7 @@ function Navbar() {
   const [isScroll, setIsScroll] = useState(false);
   const router = useRouter();
   const id = router.asPath;
+  const [input, setInput] = useRecoilState(inputState)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,6 +60,23 @@ function Navbar() {
     window.addEventListener("scroll", handleShadow);
   }, []);
 
+  useEffect(() => {
+    const handleShadow = () => {
+      const scrollY = window.scrollY;
+      if (scrollY >= 90) {
+        setShadow(true);
+        // setNavBg("#ecf0f3");
+      } else {
+        setShadow(false);
+      }
+    };
+    window.addEventListener("scroll", handleShadow);
+  }, []);
+
+  function handleNav() {
+    setNavBar(!navBar);
+  }
+
   return (
     <div
       className={
@@ -78,13 +100,13 @@ function Navbar() {
         <Link href="/">
           <Image
             src={LogoImage}
-            width={150}
-            height={150}
+            width={100}
+            height={100}
             alt="Logo Image"
-            className={dark ? "invert" : ""}
+            className={dark ? "invert pt-4" : "pt-4"}
           />
         </Link>
-        <div className="">
+        <div className=" flex items-center justify-between space-x-3">
           <ul
             className={
               dark
@@ -133,24 +155,108 @@ function Navbar() {
               contact us
             </li>
             {/* </Link> */}
-
-            <li className="ml-10 text-sm uppercase cursor-pointer">
-              {dark ? (
-                <SunIcon
-                  width={30}
-                  height={30}
-                  onClick={() => setDark(!dark)}
-                />
-              ) : (
-                <MoonIcon
-                  width={30}
-                  height={30}
-                  onClick={() => setDark(!dark)}
-                  className="text-black"
-                />
-              )}
-            </li>
           </ul>
+          <div className="flex justify-between items-center space-x-2">
+            {dark ? (
+              <HiOutlineLightBulb size={25} onClick={() => setDark(!dark)} />
+            ) : (
+              <MoonIcon
+                width={25}
+                height={25}
+                onClick={() => setDark(!dark)}
+                className="text-black"
+              />
+            )}
+            <div onClick={handleNav}>
+              <AiOutlineMenu
+                size={25}
+                className={`md:hidden ${dark ? "" : "text-black"}`}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FOR SMALL DEVICES SIDEBAR */}
+      <div
+        className={
+          navBar
+            ? `md:hidden fixed left-0 top-0 w-full h-screen  bg-black/70`
+            : ""
+        }>
+        <div
+          className={
+            navBar
+              ? `fixed top-0 left-0 w-[75%] sm:w-[60%] md:w-[45%]
+         h-screen ease-in-out duration-500 ${
+           dark ? "bg-[#141414]" : "bg-white"
+         }`
+              : `fixed top-0 left-[-100%] ease-in duration-500 ${
+                  dark ? "bg-[#141414]" : "bg-white"
+                }`
+          }>
+          <div className=" px-2 sm:px-4 md:px-6 -mt-8">
+            <div className=" flex w-full items-center justify-between">
+              <Link href="/">
+                <Image
+                  className={`${dark ? "invert" : ""}`}
+                  src={LogoImage}
+                  width={150}
+                  height={100}
+                  alt="logo-img"
+                />
+              </Link>
+              <div
+                className=" rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer"
+                onClick={handleNav}>
+                <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
+              </div>
+            </div>
+            <div className="border-b border-gray-300 my-4 flex items-center justify-center py-2">
+              <input
+                type="text"
+                className="rounded-full bg-black px-4 w-48 outline-none text-white "
+                placeholder="Search for Games!"
+                value={input}
+                onChange={(event) => setInput(event?.target.value)}
+              />
+              {""}
+              <SearchCircleIcon width={30} />
+            </div>
+          </div>
+          <div className="py-4 px-10 flex flex-col ">
+            <ul className="uppercase text-left w-24">
+              <Link href="/" onClick={handleNav}>
+                <li
+                  className={
+                    dark
+                      ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-[#5156e5] ${
+                          id === "/" ? "text-[#5156e5]" : "text-white"
+                        }`
+                      : `ml-10 text-sm uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                          id === "/" ? "text-[#5156e5]" : "text-black"
+                        }`
+                  }>
+                  home
+                </li>
+              </Link>
+              <Link href="/genres" onClick={handleNav}>
+                <li
+                  className={
+                    dark
+                      ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-[#5156e5] ${
+                          id === "/genres" ? "text-[#5156e5]" : "text-white"
+                        }`
+                      : `ml-10 text-sm uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                          id === "/genres" ? "text-[#5156e5]" : "text-black"
+                        }`
+                  }>
+                  genres
+                </li>
+              </Link>
+            </ul>
+            <div className="pt-20"></div>
+          </div>
         </div>
       </div>
     </div>
