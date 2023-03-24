@@ -33,6 +33,7 @@ function Navbar() {
   const router = useRouter();
   const id = router.asPath;
   const [input, setInput] = useRecoilState(inputState)
+  console.log(id)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -141,20 +142,20 @@ function Navbar() {
                 Genres
               </li>
             </Link>
-            {/* <Link href="/contact"> */}
+            <Link href="/platforms">
             <li
               className={
                 dark
                   ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-white ${
-                      id === "/contact" ? "text-[#5156e5]" : "text-white"
+                      id === "/platforms" ? "text-[#5156e5]" : "text-white"
                     }`
                   : `ml-10 text-sm cursor-pointer uppercase hover:border-b border-b-black ${
-                      id === "/contact" ? "text-[#5156e5]" : "text-black"
+                      id === "/platforms" ? "text-[#5156e5]" : "text-black"
                     }`
               }>
-              contact us
+              Platforms
             </li>
-            {/* </Link> */}
+            </Link>
           </ul>
           <div className="flex justify-between items-center space-x-2">
             {dark ? (
@@ -252,6 +253,20 @@ function Navbar() {
                         }`
                   }>
                   genres
+                </li>
+              </Link>
+              <Link href="/platforms" onClick={handleNav}>
+                <li
+                  className={
+                    dark
+                      ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-[#5156e5] ${
+                          id === "/platforms" ? "text-[#5156e5]" : "text-white"
+                        }`
+                      : `ml-10 text-sm uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                          id === "/platforms" ? "text-[#5156e5]" : "text-black"
+                        }`
+                  }>
+                  platforms
                 </li>
               </Link>
             </ul>

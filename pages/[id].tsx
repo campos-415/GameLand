@@ -30,23 +30,23 @@ import { renderPlatformIcons, renderStoreIcons } from "../constants/gameConst";
 function Game() {
   const [dark, setDark] = useRecoilState(darkState);
   const router = useRouter();
-  const { game } = router.query;
+  const { id } = router.query;
   const [movie, setMovie] = useState<Movie>();
   const [games, setGames] = useState<Game>();
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [showStore, setShowStore] = useState(false);
-  console.log(game);
+  console.log(id);
 
   async function fetchMovie() {
     setLoading(true);
     const [movies, games] = await Promise.all([
       fetch(
-        `https://api.rawg.io/api/games/${game}/movies?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+        `https://api.rawg.io/api/games/${id}/movies?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
       ).then((res) => res.json()),
       fetch(
-        `https://api.rawg.io/api/games/${game}?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+        `https://api.rawg.io/api/games/${id}?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
       ).then((res) => res.json()),
     ]);
     setMovie(movies.results);
@@ -81,7 +81,7 @@ function Game() {
 
   useEffect(() => {
     fetchMovie();
-  }, [game]);
+  }, [id]);
   return (
     <>
       <Head>

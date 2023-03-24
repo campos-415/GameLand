@@ -49,14 +49,7 @@ const Home = ({
           <Hero features={newGames} title="New Release" />
         </section>
         <section className="md:space-y-24 ">
-          <Genres title="Action" genre={action} />
-          <Genres title="Racing" genre={racing} />
-          <Genres title="Adventure" genre={adventure} />
-
-          <Hero features={racing} title="Racing" />
-          <Genres title="Sports" genre={sports} />
-          <Genres title="Shooter" genre={shooter} />
-          <Genres title="Simulation" genre={simulation} />
+          <Hero features={newGames} title="Features" />
         </section>
 
       </main>
@@ -97,7 +90,7 @@ export const getServerSideProps = async () => {
       `https://api.rawg.io/api/games?genres=simulation&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
     fetch(
-      `https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}&ordering=-released&page=10`
+      `https://api.rawg.io/api/games?ordering=-rating&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
     fetch(
       `https://api.rawg.io/api/games?dates=2023-01-31,2023-03-01&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`

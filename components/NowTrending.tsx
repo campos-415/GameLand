@@ -148,7 +148,7 @@ function NowTrending({ games }: Props) {
                   )}
                 </div>
                 <p
-                  className={`px-1 border ${getMetacriticClassName(
+                  className={`px-1 border flex items-center ${getMetacriticClassName(
                     games?.metacritic
                   )}`}>
                   {games?.metacritic ?? "N/A"}

@@ -19,13 +19,14 @@ interface Props {
 function CardComponent({ genres, title }: Props) {
   const [dark, setDark] = useRecoilState(darkState);
   const router = useRouter();
-  const { game } = router.query;
+  const  id  = router.asPath;
   const [movie, setMovie] = useState<Movie>();
   const [games, setGames] = useState<Game>();
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [showStore, setShowStore] = useState(false);
+  console.log(id)
 
   return (
     <>
@@ -53,15 +54,15 @@ function CardComponent({ genres, title }: Props) {
                   className={`relative pt-32 flex items-center justify-center flex-col`}>
                  
                     <h2
-                      className={`absolute top-0 w-full h-full flex items-center justify-center text-4xl ${
+                      className={`absolute top-0 w-full h-full flex items-center justify-center text-center text-4xl ${
                         dark ? "" : "text-black"
-                      } `}> <Link href={`/genres/${genre?.slug}`}>
+                      } `}> <Link href={`${id}/${genre?.slug}`}>
                       <span className=" font-bold underline hover:cursor-pointer text-center">
                         {genre?.name}
                       </span></Link>
                     </h2>
                   
-                  <button onClick={() => router.push(`/genres/${genre?.slug}`)}
+                  <button onClick={() => router.push(`${id}/${genre?.slug}`)}
                     className={`z-30 mt-8 rounded bg-black px-8 py-2 text-center hover:bg-[#5156e5]  ${
                       dark ? "bg-black" : "bg-white text-black hover:text-white"
                     }`}>
