@@ -6,7 +6,7 @@ import NowTrending from "./NowTrending";
 
 interface Props {
   features: Game[] | null
-  title: string
+  title: string | any
 }
 
 function Hero({ features, title }: Props) {
@@ -16,7 +16,7 @@ function Hero({ features, title }: Props) {
     <>
       <div className="flex flex-col items-center justify-between">
         <div className="mb-12 ">
-          <h1 className={`text-2xl md:text-3xl lg:text-6xl pt-6 ${!dark ? "text-black" : " "}`}>{title}</h1>
+          <h1 className={`text-2xl md:text-3xl lg:text-6xl pt-6 capitalize ${!dark ? "text-black" : " "}`}>{title}</h1>
         </div>
 
         <div className="mx-auto flex flex-wrap items-center justify-center max-w-[1240px]">

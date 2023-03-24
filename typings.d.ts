@@ -75,6 +75,7 @@ export interface Stores {
 }
 
 export interface Games {
+  [x: string]: any
   id: number
   name: string
   background_image: string

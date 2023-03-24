@@ -82,7 +82,6 @@ function Game() {
   useEffect(() => {
     fetchMovie();
   }, [game]);
-  console.log(game);
   return (
     <>
       <Head>

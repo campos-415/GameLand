@@ -162,7 +162,7 @@ function NowTrending({ games }: Props) {
               </h1>
             </div>
             <div
-              className={`absolute -bottom-[200px] hidden group-hover:inline group-hover:z-50  rounded-b-md  h-full ${
+              className={`absolute -bottom-[200px] hidden group-hover:inline group-hover:z-30  rounded-b-md  h-full ${
                 dark ? "bg-[#1d1c1c]" : " bg-slate-200 text-black "
               }  w-full px-2 pt-2 `}>
               <p className="text-sm flex items-center justify-between border-b border-gray-600 mb-3">

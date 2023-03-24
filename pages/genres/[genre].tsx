@@ -2,16 +2,15 @@ import axios from "axios";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { darkState } from "../atoms/darkAtom";
-import CardComponent from "../components/CardComponent";
-import Feature from "../components/Feature";
-import Hero from "../components/Hero";
-import Navbar from "../components/Navbar";
-import NowTrending from "../components/NowTrending";
+import { darkState } from "../../atoms/darkAtom";
+import Hero from "../../components/Hero";
+import Navbar from "../../components/Navbar";
+import NowTrending from "../../components/NowTrending";
 import footerImg from "../public/assets/2.png";
-import { Game, Genres } from "../typings";
+import { Game, Genres } from "../../typings";
 
 interface Props {
   action: Game[] | null;
@@ -20,11 +19,11 @@ interface Props {
   sports: Game[] | null;
   shooter: Game[] | null;
   simulation: Game[] | null;
-  features: Genres[] ;
+  features: Game[] | null;
   newGames: Game[] | null;
 }
 
-const Genres = ({
+const Home = ({
   racing,
   action,
   adventure,
@@ -34,44 +33,44 @@ const Genres = ({
   features,
   newGames,
 }: Props) => {
+  const router = useRouter();
+  const { genre } = router.query;
   const [dark, setDark] = useRecoilState(darkState);
+  const [loading, setLoading] = useState(false);
+  const [genres, setGenres] = useState([]);
+  console.log(genre);
+
+  async function fetchGenre() {
+    setLoading(true);
+    const data = await fetch(
+      `https://api.rawg.io/api/games?genres=${genre}&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+    ).then((res) => res.json())
+    console.log(data.results);
+    setGenres(data.results);
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchGenre();
+  }, [genre]);
   return (
     <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
       <Head>
-        <title>Master Player - Genres</title>
+        <title>Master Player - Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="relative pl-4 pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
-
-        <section>
-          <CardComponent genres={features} />
+        <section className="max-w-[1240px] mx-auto flex items-center justify-center">
+          <Hero features={genres} title={genre} />
         </section>
-        <section id="action" className="max-w-[1240px] mx-auto flex items-center justify-center">
-          <Hero features={action} title="Action" />
-        </section>
-        <section id="racing" className="md:space-y-24 ">
-          <Hero features={racing} title="Racing" />
-        </section>
-        <section id="adventure" className="md:space-y-24 ">
-          <Hero features={adventure} title="Adventure" />
-        </section>
-        <section id="sports" className="md:space-y-24 ">
-          <Hero features={sports} title="Sports" />
-        </section>
-        <section id="shooter" className="md:space-y-24 ">
-          <Hero features={shooter} title="Shooter" />
-        </section>
-        <section id="simulation" className="md:space-y-24 ">
-          <Hero features={simulation} title="Simulation" />
-        </section>
-
       </main>
     </div>
   );
 };
 
-export default Genres;
+export default Home;
 
 export const getServerSideProps = async () => {
   const [
@@ -103,10 +102,10 @@ export const getServerSideProps = async () => {
       `https://api.rawg.io/api/games?genres=simulation&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
     fetch(
-      `https://api.rawg.io/api/genres?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+      `https://api.rawg.io/api/games?key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}&ordering=-released&page=10`
     ).then((res) => res.json()),
     fetch(
-      `https://api.rawg.io/api/genres?&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+      `https://api.rawg.io/api/games?dates=2023-01-31,2023-03-01&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json()),
   ]);
 

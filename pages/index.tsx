@@ -48,18 +48,17 @@ const Home = ({
 
           <Hero features={newGames} title="New Release" />
         </section>
-        <Feature features={features} />
         <section className="md:space-y-24 ">
           <Genres title="Action" genre={action} />
           <Genres title="Racing" genre={racing} />
           <Genres title="Adventure" genre={adventure} />
-          <Feature features={features} />
+
           <Hero features={racing} title="Racing" />
           <Genres title="Sports" genre={sports} />
           <Genres title="Shooter" genre={shooter} />
           <Genres title="Simulation" genre={simulation} />
         </section>
-        <Feature features={action} />
+
       </main>
     </div>
   );
