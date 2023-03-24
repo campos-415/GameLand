@@ -9,7 +9,6 @@ interface Props {
 }
 
 function GameImage({ game }: Props) {
-  const router = useRouter();
   return (
     <>
       <Link href={`/${game.id}`}>

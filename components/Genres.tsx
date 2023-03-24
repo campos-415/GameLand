@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { Game } from "../typings";
@@ -15,6 +13,7 @@ function Genres({ genre, title }: Props) {
   const rowRef = useRef<HTMLDivElement>(null);
   const [isMoved, setIsMoved] = useState(false);
   const [dark, setDark] = useRecoilState(darkState);
+
   const handleClick = (direction: string) => {
     setIsMoved(true);
     if (rowRef.current) {
@@ -51,7 +50,6 @@ function Genres({ genre, title }: Props) {
               className="flex flex-col items-center justify-center"
               key={game.id}>
               <GameImage game={game} />
-              {/* <p className="text-xs text-center">{game.name}</p> */}
             </div>
           ))}
         </div>

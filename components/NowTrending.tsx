@@ -9,10 +9,7 @@ import esrb_t from "../public/assets/ratings/esrb-t.svg";
 import esrb_e from "../public/assets/ratings/esrb-e.svg";
 import esrb_a from "../public/assets/ratings/esrb-a.svg";
 import esrb_10 from "../public/assets/ratings/esrb-10.svg";
-import {
-
-  renderPlatformIcons,
-} from "../constants/gameConst";
+import { renderPlatformIcons } from "../constants/gameConst";
 
 interface Props {
   games?: Game;
@@ -50,15 +47,10 @@ const esrbImages: { [key: string]: string } = {
   "Rating Pending": esrb_e,
 };
 
-
-
 function NowTrending({ games }: Props) {
   const [dark, setDark] = useRecoilState(darkState);
-  const [platforms, setPlatforms] = useState({});
   const [loading, setLoading] = useState(false);
   const [game, setGame] = useState<Game>();
-  const [score, setScore] = useState();
-
 
   useEffect(() => {
     setLoading(false);
@@ -126,7 +118,8 @@ function NowTrending({ games }: Props) {
                 src={games?.background_image}
                 fill
                 alt="/"
-                sizes="small"
+                  sizes="small"
+                  priority
               />
             </div>
             <div
@@ -134,16 +127,17 @@ function NowTrending({ games }: Props) {
                 !dark ? "text-black" : ""
               }`}>
               <div className="flex w-48 text-lg justify-start space-x-1 ">
-                {renderPlatformIcons(games?.platforms)}
+                  {renderPlatformIcons(games?.platforms)}
               </div>
               <div className="flex space-x-2  ">
-                <div className="">
+                <div className="w-full h-auto">
                   {game?.esrb_rating?.name && (
                     <Image
                       src={esrbImages[game?.esrb_rating?.name]}
-                      width={20}
-                      height={20}
+                      width={30}
+                      height={30}
                       alt="rating"
+                      className="w-[30px] h-[30px]"
                     />
                   )}
                 </div>
@@ -175,7 +169,7 @@ function NowTrending({ games }: Props) {
                   {game?.genres.map((genre: Genres) => (
                     <span
                       className=" text-[#4a4949] text-xs w-full"
-                      key={genre?.name}>
+                      key={genre?.id}>
                       {genre?.name}
                       {", "}
                     </span>
@@ -188,7 +182,7 @@ function NowTrending({ games }: Props) {
                   {game?.platforms.map((plat: Platform) => (
                     <span
                       className=" px-1 text-[#4a4949] text-xs w-full "
-                      key={plat?.name}>
+                      key={plat?.id}>
                       {plat?.platform.name}
                       {", "}
                     </span>

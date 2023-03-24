@@ -3,13 +3,13 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import { darkState } from "../atoms/darkAtom";
-import Feature from "../components/Feature";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { darkState, sideBarState } from "../atoms/darkAtom";
 import Genres from "../components/Genres";
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import NowTrending from "../components/NowTrending";
+import Sidebar from "../components/Sidebar";
 import footerImg from "../public/assets/2.png";
 import { Game } from "../typings";
 
@@ -35,23 +35,25 @@ const Home = ({
   features,
   newGames,
 }: Props) => {
-  const [dark, setDark] = useRecoilState(darkState);
+  const sideBar = useRecoilValue(sideBarState)
+  const dark = useRecoilValue(darkState);
   return (
-    <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
+    <div
+      className={` h-full ${dark ? " bg-[#141414]" : "bg-white"} ${
+        sideBar && "!h-screen overflow-hidden"
+      }`}>
       <Head>
         <title>Master Player - Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
+      <main className="relative pt-32 lg:space-y-24  max-w-[1240px] mx-auto">
         <section className="max-w-[1240px] mx-auto flex items-center justify-center">
-
-          <Hero features={newGames} title="New Release" />
+          <Hero item={newGames} title="New Release" />
         </section>
         <section className="md:space-y-24 ">
-          <Hero features={newGames} title="Features" />
+          <Hero item={newGames} title="Features" />
         </section>
-
       </main>
     </div>
   );

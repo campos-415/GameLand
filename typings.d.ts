@@ -65,6 +65,7 @@ export interface Genres {
   games_count: number
   slug: string
   image_background: string
+  image: string
 }
 
 export interface Stores {

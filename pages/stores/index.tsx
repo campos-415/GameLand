@@ -1,16 +1,16 @@
 import Head from "next/head";
-import { useRecoilValue } from "recoil";
+import {  useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../../atoms/darkAtom";
 import CardComponent from "../../components/CardComponent";
 import { Genres } from "../../typings";
 
 interface Props {
-  genre: Genres[];
+  stores: Genres[];
 }
 
-const Genres = ({ genre }: Props) => {
+const Stores = ({ stores }: Props) => {
   const dark = useRecoilValue(darkState);
-  const sideBar = useRecoilValue(sideBarState);
+  const sideBar = useRecoilValue(sideBarState)
 
   return (
     <div
@@ -18,29 +18,29 @@ const Genres = ({ genre }: Props) => {
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
-        <title>Game Land - Genres</title>
+        <title>Game Land - Stores</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
+      <main className="relative pt-32 lg:space-y-24 max-w-[1240px] mx-auto ">
         <section>
-          <CardComponent title="Genres" item={genre} />
+          <CardComponent title="Stores" item={stores} />
         </section>
       </main>
     </div>
   );
 };
 
-export default Genres;
+export default Stores;
 
 export const getServerSideProps = async () => {
-  const genre = await fetch(
-    `https://api.rawg.io/api/genres?&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+  const stores = await fetch(
+    `https://api.rawg.io/api/stores?&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
   ).then((res) => res.json());
 
   return {
     props: {
-      genre: genre.results,
+      stores: stores.results,
     },
   };
 };

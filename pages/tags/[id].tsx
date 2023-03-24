@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import {  useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../../atoms/darkAtom";
 import Hero from "../../components/Hero";
 
@@ -13,19 +13,20 @@ const Home = () => {
   const dark = useRecoilValue(darkState);
   const sideBar = useRecoilValue(sideBarState);
   const [loading, setLoading] = useState(false);
-  const [genres, setGenres] = useState([]);
+  const [tags, setTags] = useState([]);
+  
 
-  async function fetchGenre() {
+  async function fetchTags() {
     setLoading(true);
     const data = await fetch(
-      `https://api.rawg.io/api/games?genres=${id}&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
+      `https://api.rawg.io/api/games?tags=${id}&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
     ).then((res) => res.json())
-    setGenres(data.results);
+    setTags(data.results);
     setLoading(false);
   }
 
   useEffect(() => {
-    fetchGenre();
+    fetchTags();
   }, [id]);
   
   return (
@@ -34,13 +35,13 @@ const Home = () => {
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
-        <title>Master Player - {id}</title>
+        <title>Game Land - {id}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pt-32 lg:space-y-24  max-w-[1240px] mx-auto">
+      <main className="relative pt-32 lg:space-y-24 lg:pl-16 max-w-[1240px] mx-auto">
         <section className="max-w-[1240px] mx-auto flex items-center justify-center">
-          <Hero item={genres} title={id} />
+          <Hero item={tags} title={id} />
         </section>
       </main>
     </div>

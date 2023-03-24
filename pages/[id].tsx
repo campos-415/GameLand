@@ -55,30 +55,6 @@ function Game() {
     setLoading(false);
   }
 
-  // FOR THE PLAYER TO AUTOMATICALLY PLAY WHEN HOVERING
-
-  // const videoRef = useRef<any>();
-
-  // useEffect(() => {
-  //   const video = videoRef.current;
-
-  //   const handleMouseEnter = () => {
-  //     setPlaying(true);
-  //   };
-
-  //   const handleMouseLeave = () => {
-  //     setPlaying(false);
-  //   };
-
-  //   video?.addEventListener("mouseenter", handleMouseEnter);
-  //   video?.addEventListener("mouseleave", handleMouseLeave);
-
-  //   return () => {
-  //     video?.removeEventListener("mouseenter", handleMouseEnter);
-  //     video?.removeEventListener("mouseleave", handleMouseLeave);
-  //   };
-  // }, []);
-
   useEffect(() => {
     fetchMovie();
   }, [id]);
@@ -100,7 +76,6 @@ function Game() {
             src={games?.background_image}
             alt="bannerImg"
             fill
-            priority
           />
         </div>
         <div className="relative">
