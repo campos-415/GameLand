@@ -85,21 +85,12 @@ function Navbar() {
         }
       `}>
       <div className="flex justify-between items-center w-full h-full px-2 2xl:px-16 max-w-[1240px] mx-auto">
-        <Link href="/">
-          {/* <Image
-            src={LogoImage}
-            width={100}
-            height={100}
-            alt="Logo Image"
-            className={` ${dark ? "invert pt-4" : "pt-4"}`}
-          /> */}
           <div className="flex items-center absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6">
             <h1 className="text-2xl font-bold">
               <span className={`${dark ? "" : "text-black"}`}>Game</span>
               <span className="text-[#5165e5]">Land</span>
             </h1>
           </div>
-        </Link>
         <div className=" flex items-center justify-between space-x-3">
           <ul
             className={
