@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TailSpin } from "react-loader-spinner";
 import useAuth from "../hooks/useAuth";
 import LogoImage from "../public/assets/2.png";
 
@@ -13,7 +12,6 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState(false);
-  const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
 
   const {
@@ -54,7 +52,9 @@ function Login() {
             <input
               type="email"
               placeholder="Email"
-              className={`input ${errors.email && "border-b-2 border-red-500"}`}
+              className={`input ${
+                errors.email && "border-b-2 border-red-500"
+              }`}
               {...register("email", { required: true })}
             />
             {errors.email && (
@@ -83,23 +83,16 @@ function Login() {
           className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5]"
           onClick={() => setLogin(true)}
           type="submit">
-          {loading ? (
-            <TailSpin
-              height="40"
-              width="40"
-              color="#fff"
-              ariaLabel="tail-spin-loading"
-              radius="0.8"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
-          ) : (
-            "Log In"
-          )}
+          Sign In
         </button>
         <div className="text-[gray]">
           New to Game Land?{" "}
+          <button
+            className="cursor-pointer text-white hover:underline hover:text-[#5165e5]"
+            onClick={() => setLogin(false)}
+            type="submit">
+            Sign up now
+          </button>
         </div>
       </form>
     </div>
