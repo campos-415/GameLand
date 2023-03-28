@@ -10,17 +10,18 @@ import { db } from "../firebase";
 import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
 import { TailSpin } from "react-loader-spinner";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { darkState, sideBarState } from "../atoms/darkAtom";
+
 
 
 function Login() {
   const [loading, setLoading] = useState(false);
+  const dark = useRecoilValue(darkState)
+  const sideBar = useRecoilValue(sideBarState)
   const router = useRouter();
   const { user, logOut } = useAuth();
   const User = useUser(user!?.uid);
-
-  console.log(User)
-
-
   const {
     register,
     handleSubmit,
@@ -28,10 +29,20 @@ function Login() {
     formState: { errors },
   } = useForm<User>();
 
+  function handleLoading(data: any) {
+    if (data) {
+      setLoading(true)
+    }
+    else {
+      setLoading(false)
+    }
+  }
   const onSubmit: SubmitHandler<User> = async (data) => {
+    handleLoading(data)
     if (data) {
       await setDoc(doc(db, "users", user!.uid), data);
-    router.push(`/`);
+      router.push(`/`);
+
     } else {
       setLoading(false)
     }
@@ -41,7 +52,10 @@ function Login() {
 
 
   return (
-    <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
+    <div
+      className={`relative flex h-screen w-screen flex-col md:items-center md:justify-center ${
+        dark ? " bg-[#141414]" : "bg-white"
+      } ${sideBar && "!h-screen overflow-hidden"}`}>
       <Head>
         <title>GameLand</title>
         <link rel="icon" href="/favicon.ico" />
@@ -76,20 +90,11 @@ function Login() {
                   }`}
                 />
               </label>
-              <label className="inline-block w-full">
-                <textarea
-                  {...register("biography")}
-                  placeholder={User?.biography}
-                  className={`input ${
-                    errors.biography && "border-b-2 border-red-500"
-                  }`}
-                />
-              </label>
             </div>
             <div className="flex items-center justify-center flex-col">
               <button
                 className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5] flex items-center justify-center"
-                onClick={() => setLoading(true)}
+                onClick={() => handleSubmit}
                 type="submit">
                 {loading ? (
                   <TailSpin
@@ -106,7 +111,9 @@ function Login() {
                   "Save"
                 )}
               </button>
-              <p className="py-1 text-gray-700 ">OR</p>
+              <p className={` ${dark ? "text-gray-700" : "text-white"} py-1 `}>
+                OR
+              </p>
               <button
                 className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5]"
                 onClick={logOut}
@@ -142,15 +149,6 @@ function Login() {
                 }`}
               />
             </label>
-            <label className="inline-block w-full">
-              <textarea
-                {...register("biography")}
-                placeholder="About me..."
-                className={`input ${
-                  errors.biography && "border-b-2 border-red-500"
-                }`}
-              />
-            </label>
           </div>
           <div className="flex items-center justify-center flex-col">
             <button
@@ -172,7 +170,9 @@ function Login() {
                 "Save"
               )}
             </button>
-            <p className="py-1 text-gray-700 ">OR</p>
+            <p className={` ${dark ? "text-gray-700" : "text-white"} py-1 `}>
+              OR
+            </p>
             <button
               className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5]"
               onClick={logOut}

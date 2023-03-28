@@ -4,16 +4,19 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { darkState, inputState, sideBarState } from "../atoms/darkAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { darkState, inputState, sideBarState} from "../atoms/darkAtom";
 import LogoImage from "../public/assets/2.png";
 import { AiOutlineMenu } from "react-icons/ai";
 import { UserIcon } from "@heroicons/react/solid";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
+import { DocumentData } from "firebase/firestore";
+import { db } from "../firebase";
 
 function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
+
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
   const { logOut, user } = useAuth();
   const User = useUser(user!?.uid);
@@ -21,7 +24,6 @@ function Navbar() {
   const [isScroll, setIsScroll] = useState(false);
   const router = useRouter();
   const id = router.asPath;
-  console.table(User)
 
   useEffect(() => {
     const handleScroll = () => {

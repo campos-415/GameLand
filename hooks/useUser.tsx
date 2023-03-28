@@ -19,7 +19,7 @@ function useUser(uid: string) {
   useEffect(() => {
     if (!uid) return;
     getUser()
-  }, [db, uid]);
+  }, [db]);
   return user;
 }
 

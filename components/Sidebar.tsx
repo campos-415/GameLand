@@ -14,7 +14,7 @@ function Sidebar() {
     setSideBar(!sideBar);
   }
   return (
-    <div className={sideBar ? `w-full h-screen  bg-black/70` : ""}>
+    <div className={sideBar ? `w-full h-[120vh] -translate-y-4  bg-black/70` : ""}>
       <div
         className={
           sideBar
