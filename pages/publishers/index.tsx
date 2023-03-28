@@ -1,6 +1,5 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../../atoms/darkAtom";
 import CardComponent from "../../components/CardComponent";
 import { Genres } from "../../typings";

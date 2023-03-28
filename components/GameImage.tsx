@@ -1,7 +1,6 @@
 import { StarIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { Game } from "../typings";
 interface Props {

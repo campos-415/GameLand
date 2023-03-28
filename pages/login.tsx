@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import LogoImage from "../public/assets/2.png";
+import bgImage from "../public/assets/bgImage.jpeg";
 
 interface Inputs {
   email: string;
@@ -17,7 +17,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -41,11 +40,14 @@ function Login() {
         <h1 className="text-2xl font-bold">
           Game<span className="text-[#5165e5]">Land</span>
         </h1>
-      </div>
+      </div> <div>
+          <Image src={bgImage} alt="bgImage" fill className="object-cover" />
+        </div>
 
       <form
         className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
         onSubmit={handleSubmit(onSubmit)}>
+       
         <h1 className="text-4xl font-semibold">Sign In</h1>
         <div className="space-y-4">
           <label className="inline-block w-full">

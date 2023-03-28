@@ -1,16 +1,14 @@
 import Head from "next/head";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import LogoImage from "../public/assets/2.png";
 import { User } from "../typings";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
 import { TailSpin } from "react-loader-spinner";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
 
 
@@ -25,7 +23,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<User>();
 

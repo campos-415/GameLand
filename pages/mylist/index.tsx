@@ -2,19 +2,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../../atoms/darkAtom";
-import CardComponent from "../../components/CardComponent";
 import EmptyPage from "../../components/EmptyPage";
 import Hero from "../../components/Hero";
-import NowTrending from "../../components/NowTrending";
 import useAuth from "../../hooks/useAuth";
 import useList from "../../hooks/useList";
-import { Genres } from "../../typings";
 
-interface Props {
-  tags: Genres[];
-}
-
-const Tags = () => {
+const MyList = () => {
   const dark = useRecoilValue(darkState);
   const sideBar = useRecoilValue(sideBarState)
    const { user } = useAuth();
@@ -39,16 +32,5 @@ const Tags = () => {
   );
 };
 
-export default Tags;
+export default MyList;
 
-export const getServerSideProps = async () => {
-  const tags = await fetch(
-    `https://api.rawg.io/api/tags?&key=${process.env.NEXT_PUBLIC_GAMES_API_KEY}`
-  ).then((res) => res.json());
-
-  return {
-    props: {
-      tags: tags.results,
-    },
-  };
-};

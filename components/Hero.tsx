@@ -1,7 +1,7 @@
 import { DocumentData } from "firebase/firestore";
 import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { darkState, sideBarState } from "../atoms/darkAtom";
+import { useRecoilValue } from "recoil";
+import { darkState } from "../atoms/darkAtom";
 import { Game } from "../typings";
 import NowTrending from "./NowTrending";
 
@@ -12,7 +12,6 @@ interface Props {
 
 function Hero({ item, title }: Props) {
   const dark = useRecoilValue(darkState)
-  const sideBar = useRecoilValue(sideBarState)
 
   return (
     <>

@@ -30,7 +30,7 @@ const Home = () => {
   return (
     <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
       <Head>
-        <title>Master Player - {id}</title>
+        <title>Developer- {id}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

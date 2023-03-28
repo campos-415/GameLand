@@ -34,7 +34,7 @@ const Home = () => {
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
-        <title>Game Land - {id}</title>
+        <title>Publisher - {id}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

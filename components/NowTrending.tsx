@@ -21,25 +21,21 @@ import {
 import useAuth from "../hooks/useAuth";
 import { db } from "../firebase";
 import { toast, Toaster } from "react-hot-toast";
-import {
-  CheckCircleIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/solid";
+import { CheckCircleIcon, PlusCircleIcon } from "@heroicons/react/solid";
 
 interface Props {
   games: Game;
 }
 
-
 const toastStyle = {
-  backgound: 'white',
-  color: 'black',
-  fontWheigth: 'bold',
-  fontSize: '16px',
-  padding: '15px',
-  borderRadius: '9999px',
-  maxWidth: '1000px',
-}
+  backgound: "white",
+  color: "black",
+  fontWheigth: "bold",
+  fontSize: "16px",
+  padding: "15px",
+  borderRadius: "9999px",
+  maxWidth: "1000px",
+};
 const getMetacriticClassName = (metacritic?: number | string) => {
   if (metacritic === undefined) {
     return "text-blue-500 border-blue-500";
@@ -77,15 +73,13 @@ function NowTrending({ games }: Props) {
   const [loading, setLoading] = useState(false);
   const [game, setGame] = useState<Game>();
   const [gameList, setGameList] = useState<DocumentData[] | any | Game>();
-  const [gameListId, setGameListId] = useState<DocumentData[] | string[] >();
+  const [gameListId, setGameListId] = useState<DocumentData[] | string[]>();
   const [addedToList, setAddedToList] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
     setLoading(false);
-    setTimeout(() => {
-      setGame(games);
-    }, 500);
+    setGame(games);
     setLoading(true);
   }, []);
 
@@ -101,12 +95,11 @@ function NowTrending({ games }: Props) {
       );
     }
   }, [db, game?.id]);
-  
-// CHECKING TO SEE IF THE GAME IS IN THE MYLIST AND CHECKING THE MARK FOR THE GAME IF IT IS 
-  useEffect(() => {
 
+  // CHECKING TO SEE IF THE GAME IS IN THE MYLIST AND CHECKING THE MARK FOR THE GAME IF IT IS
+  useEffect(() => {
     setAddedToList(
-      gameListId?.findIndex((result:any) => result == game?.id) !== -1
+      gameListId?.findIndex((result: any) => result == game?.id) !== -1
     );
   }, [gameList]);
 
@@ -116,7 +109,7 @@ function NowTrending({ games }: Props) {
       await deleteDoc(
         doc(db, "users", user!.uid, "myList", game?.id.toString()!)
       );
-        setAddedToList(false);
+      setAddedToList(false);
 
       toast(`${game?.name} has been removed from My List ❌`, {
         duration: 8000,
@@ -127,11 +120,11 @@ function NowTrending({ games }: Props) {
         doc(db, "users", user!.uid, "myList", game?.id.toString()!),
         { ...game }
       );
-        setAddedToList(true);
+      setAddedToList(true);
 
       toast(`${game?.name} has been added to My List ✅`, {
         duration: 8000,
-        style: toastStyle
+        style: toastStyle,
       });
     }
   };

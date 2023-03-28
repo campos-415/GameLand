@@ -1,24 +1,21 @@
 import { MoonIcon } from "@heroicons/react/outline";
-import Image from "next/image";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { darkState, inputState, sideBarState} from "../atoms/darkAtom";
-import LogoImage from "../public/assets/2.png";
+import { useRecoilState } from "recoil";
+import { darkState, sideBarState} from "../atoms/darkAtom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { UserIcon } from "@heroicons/react/solid";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
-import { DocumentData } from "firebase/firestore";
-import { db } from "../firebase";
+
 
 function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
 
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
-  const { logOut, user } = useAuth();
+  const {  user } = useAuth();
   const User = useUser(user!?.uid);
   const [shadow, setShadow] = useState<boolean>(false);
   const [isScroll, setIsScroll] = useState(false);

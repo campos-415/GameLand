@@ -1,10 +1,7 @@
-import axios from "axios";
-import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../../atoms/darkAtom";
 import Hero from "../../components/Hero";
 

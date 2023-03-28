@@ -1,30 +1,13 @@
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import esrb_m from "../public/assets/ratings/esrb-m.svg";
-import esrb_t from "../public/assets/ratings/esrb-t.svg";
-import esrb_e from "../public/assets/ratings/esrb-e.svg";
-import esrb_a from "../public/assets/ratings/esrb-a.svg";
-import esrb_10 from "../public/assets/ratings/esrb-10.svg";
-import React, { useContext, useEffect, useRef, useState } from "react";
-
-import { FaBeer, FaPlay, FaShoppingBag, FaStar } from "react-icons/fa";
-import {
-  IoLogoAndroid,
-  IoLogoApple,
-  IoLogoPlaystation,
-  IoLogoSteam,
-  IoLogoXbox,
-} from "react-icons/io";
-import { SiNintendoswitch } from "react-icons/si";
-import { CgScrollV } from "react-icons/cg";
+import  {useEffect,useState } from "react";
+import { FaShoppingBag } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import { useRecoilState } from "recoil";
 import { darkState } from "../atoms/darkAtom";
-import comingSoon from "../public/assets/comingSoon.jpg";
-import { Data, Game, Movie, Stores, Video } from "../typings";
+import { Data, Game, Movie } from "../typings";
 import { renderPlatformIcons, renderStoreIcons } from "../constants/gameConst";
 
 function Game() {

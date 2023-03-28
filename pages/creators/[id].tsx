@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { darkState } from "../../atoms/darkAtom";
 import Hero from "../../components/Hero";
 
@@ -30,7 +30,7 @@ const Home = () => {
   return (
     <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
       <Head>
-        <title>Master Player - {id}</title>
+        <title>Creator - {id}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

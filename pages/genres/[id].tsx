@@ -34,7 +34,7 @@ const Home = () => {
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
-        <title>Master Player - {id}</title>
+        <title>Genres - {id}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
