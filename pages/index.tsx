@@ -31,7 +31,7 @@ const Home = ({ newGames }: Props) => {
   const sideBar = useRecoilValue(sideBarState);
   const dark = useRecoilValue(darkState);
   const { user } = useAuth();
-  const list: any = useList(user?.uid);
+  const list: any = useList(user!?.uid);
   return (
     <div
       className={` h-full ${dark ? " bg-[#141414]" : "bg-white"} ${

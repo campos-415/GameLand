@@ -16,11 +16,12 @@ function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
   const { logOut, user } = useAuth();
-  const User = useUser(user!.uid);
+  const User = useUser(user!?.uid);
   const [shadow, setShadow] = useState<boolean>(false);
   const [isScroll, setIsScroll] = useState(false);
   const router = useRouter();
   const id = router.asPath;
+  console.table(User)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,7 +159,7 @@ function Navbar() {
                       }`
                 }>
                 <div className="flex justify-between items-center">
-                  {User?.firstName[0] + User?.lastName[0]}
+                  {(User?.firstName[0] + User?.lastName[0]).toString()}
                   <UserIcon
                     width={25}
                     height={25}

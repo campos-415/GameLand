@@ -1,15 +1,10 @@
 import {
-  collection,
   doc,
   DocumentData,
   getDoc,
-  getDocs,
-  onSnapshot,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { Game, User } from "../typings";
 
 function useUser(uid: string) {
   const [user, setUser] = useState<DocumentData>();
