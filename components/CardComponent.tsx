@@ -81,7 +81,7 @@ function CardComponent({ item, title }: Props) {
                     See More
                   </button>
                   <div
-                    className={` bottom-0 space-y-1 w-full pt-12 pb-9 ${
+                    className={` bottom-0 space-y-1 w-full pt-12 ${element?.image ? "pb-5" : "pb-9" } ${
                       dark ? "bg-gradient-to-b-dark" : "bg-gradient-to-b-light"
                     }`}>
                     <div

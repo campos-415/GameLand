@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
@@ -5,8 +6,8 @@ import { Game } from "../typings";
 import NowTrending from "./NowTrending";
 
 interface Props {
-  item: Game[] | null
-  title: string | any
+  item: Game | any | DocumentData[]
+  title: string | undefined | string[]
 }
 
 function Hero({ item, title }: Props) {

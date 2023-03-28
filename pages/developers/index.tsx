@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRecoilValue } from "recoil";
-import { darkState } from "../../atoms/darkAtom";
+import { darkState, sideBarState } from "../../atoms/darkAtom";
 import CardComponent from "../../components/CardComponent";
 import { Genres } from "../../typings";
 
@@ -10,12 +10,15 @@ interface Props {
 
 const Developers = ({ developers }: Props) => {
   const dark = useRecoilValue(darkState);
-  console.log(developers)
+  const sideBar = useRecoilValue(sideBarState);
 
   return (
-    <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
+    <div
+      className={` h-full ${dark ? " bg-[#141414]" : "bg-white"} ${
+        sideBar && "!h-screen overflow-hidden"
+      }`}>
       <Head>
-        <title>Master Player - Stores</title>
+        <title>Game Land- Developers</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

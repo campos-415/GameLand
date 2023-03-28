@@ -29,6 +29,15 @@ export interface Game {
 
 }
 
+export interface User {
+  firstName: string
+  lastName: string
+  biography: string
+  userImage: string
+  userId: number
+  games: Game
+}
+
 export interface Data {
   max: string;
   480: string;

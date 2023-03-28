@@ -10,7 +10,7 @@ interface Props {
 
 const Creators = ({ creators }: Props) => {
   const dark = useRecoilValue(darkState);
-  console.log(creators)
+
 
   return (
     <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>

@@ -21,7 +21,9 @@ function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs > = async (data:any) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+
     if (login) {
       await signIn(data.email, data.password);
     } else {
@@ -32,17 +34,10 @@ function Login() {
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
       <Head>
-        <title>Netflix</title>
+        <title>GameLand</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex items-center absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6">
-        {/* <Image
-          src={LogoImage}
-          width={150}
-          height={150}
-          className="cursor-pointer object-contain"
-          alt="logoImg"
-        /> */}
         <h1 className="text-2xl font-bold">
           Game<span className="text-[#5165e5]">Land</span>
         </h1>
@@ -58,12 +53,12 @@ function Login() {
               type="email"
               placeholder="Email"
               className={`input ${
-                errors.email && "border-b-2 border-orange-500"
+                errors.email && "border-b-2 border-red-500"
               }`}
               {...register("email", { required: true })}
             />
             {errors.email && (
-              <p className="p-1 text-[13px] font-light  text-orange-500">
+              <p className="p-1 text-[13px] font-light  text-red-500">
                 Please enter a valid email.
               </p>
             )}
@@ -74,11 +69,11 @@ function Login() {
               {...register("password", { required: true })}
               placeholder="Password"
               className={`input ${
-                errors.password && "border-b-2 border-orange-500"
+                errors.password && "border-b-2 border-red-500"
               }`}
             />
             {errors.password && (
-              <p className="p-1 text-[13px] font-light  text-orange-500">
+              <p className="p-1 text-[13px] font-light  text-red-500">
                 Your password must contain between 4 and 60 characters.
               </p>
             )}

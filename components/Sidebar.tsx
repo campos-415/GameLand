@@ -1,21 +1,14 @@
-import { MoonIcon, SearchCircleIcon } from "@heroicons/react/outline";
-import Image from "next/image";
-
-import { HiOutlineLightBulb } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { darkState, inputState, sideBarState } from "../atoms/darkAtom";
-import LogoImage from "../public/assets/2.png";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { darkState, sideBarState } from "../atoms/darkAtom";
+import { AiOutlineClose } from "react-icons/ai";
 
 function Sidebar() {
   const dark = useRecoilValue(darkState);
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
   const router = useRouter();
   const id = router.asPath;
-  const [input, setInput] = useRecoilState(inputState);
 
   function handleNav() {
     setSideBar(!sideBar);
@@ -36,21 +29,7 @@ function Sidebar() {
         <div className=" px-2 sm:px-4 md:px-6 mt-8">
           <div className=" flex w-full h-full items-center justify-between">
             <Link href="/">
-              {/*  <Image
-                  className={`${dark ? "invert" : ""}`}
-                  src={LogoImage}
-                  width={150}
-                  height={150}
-                  alt="logo-img"
-                /> */}
               <div className="flex items-center absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6">
-                {/* <Image
-                    src={LogoImage}
-                    width={150}
-                    height={150}
-                    className="cursor-pointer object-contain"
-                    alt="logoImg"
-                  /> */}
                 <h1 className="text-2xl font-bold">
                   <span className={`${dark ? "" : "text-black"}`}>Game</span>
                   <span className="text-[#5165e5]">Land</span>
@@ -63,19 +42,11 @@ function Sidebar() {
               <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
             </div>
           </div>
-          {/* <div className="border-b border-gray-300 my-4 flex items-center justify-center py-2">
-              <input
-                type="text"
-                className="rounded-full bg-black px-4 w-48 outline-none text-white "
-                placeholder="Search for Games!"
-                value={input}
-                onChange={(event) => setInput(event?.target.value)}
-              />
-              {""}
-              <SearchCircleIcon width={30} />
-            </div> */}
+          <div className="border-b border-gray-300 my-4 flex items-center justify-center py-2">
+              
+            </div>
         </div>
-        <div className="py-4 px-10 flex flex-col ">
+        <div className="pb-4 pt-24 px-10 flex flex-col ">
           <ul className="uppercase text-left w-auto ">
             <Link href="/" onClick={handleNav}>
               <li

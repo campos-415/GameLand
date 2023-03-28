@@ -37,7 +37,7 @@ function Game() {
   const [playing, setPlaying] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [showStore, setShowStore] = useState(false);
-  console.log(id);
+
 
   async function fetchMovie() {
     setLoading(true);

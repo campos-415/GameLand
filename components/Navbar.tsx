@@ -8,16 +8,19 @@ import { useRecoilState } from "recoil";
 import { darkState, inputState, sideBarState } from "../atoms/darkAtom";
 import LogoImage from "../public/assets/2.png";
 import { AiOutlineMenu } from "react-icons/ai";
+import { UserIcon } from "@heroicons/react/solid";
+import useAuth from "../hooks/useAuth";
+import useUser from "../hooks/useUser";
 
 function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
-
+  const { logOut, user } = useAuth();
+  const User = useUser(user!.uid);
   const [shadow, setShadow] = useState<boolean>(false);
   const [isScroll, setIsScroll] = useState(false);
   const router = useRouter();
   const id = router.asPath;
-  const [input, setInput] = useRecoilState(inputState);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,34 +117,7 @@ function Navbar() {
                 home
               </li>
             </Link>
-            <Link href="/genres">
-              <li
-                className={
-                  dark
-                    ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-white ${
-                        id === "/genres" ? "text-[#5156e5]" : "text-white"
-                      }`
-                    : `ml-10 text-sm uppercase cursor-pointer hover:border-b border-b-black ${
-                        id === "/genres" ? "text-[#5156e5]" : "text-black"
-                      }`
-                }>
-                Genres
-              </li>
-            </Link>
-            <Link href="/platforms">
-              <li
-                className={
-                  dark
-                    ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-white ${
-                        id === "/platforms" ? "text-[#5156e5]" : "text-white"
-                      }`
-                    : `ml-10 text-sm cursor-pointer uppercase hover:border-b border-b-black ${
-                        id === "/platforms" ? "text-[#5156e5]" : "text-black"
-                      }`
-                }>
-                Platforms
-              </li>
-            </Link>
+
             <Link href="/creators">
               <li
                 className={
@@ -156,22 +132,64 @@ function Navbar() {
                 creators
               </li>
             </Link>
+            <Link href="/mylist">
+              <li
+                className={
+                  dark
+                    ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-white ${
+                        id === "/mylist" ? "text-[#5156e5]" : "text-white"
+                      }`
+                    : `ml-10 text-sm cursor-pointer uppercase hover:border-b border-b-black ${
+                        id === "/mylist" ? "text-[#5156e5]" : "text-black"
+                      }`
+                }>
+                My List
+              </li>
+            </Link>
+            <Link href="/user">
+              <li
+                className={
+                  dark
+                    ? `ml-10 cursor-pointer text-sm uppercase hover:border-b border-b-white ${
+                        id === "/user" ? "text-[#5156e5]" : "text-white"
+                      }`
+                    : `ml-10 text-sm cursor-pointer uppercase hover:border-b border-b-black ${
+                        id === "/user" ? "text-[#5156e5]" : "text-black"
+                      }`
+                }>
+                <div className="flex justify-between items-center">
+                  {User?.firstName[0] + User?.lastName[0]}
+                  <UserIcon
+                    width={25}
+                    height={25}
+                    className={`hover:cursor-pointer ml-2 ${
+                      dark ? "" : "text-black"
+                    }`}
+                    onClick={() => router.push("/user")}
+                  />
+                </div>
+              </li>
+            </Link>
           </ul>
           <div className="flex justify-between items-center space-x-2">
             {dark ? (
-              <HiOutlineLightBulb size={25} onClick={() => setDark(!dark)} />
+              <HiOutlineLightBulb
+                className="hover:cursor-pointer"
+                size={25}
+                onClick={() => setDark(!dark)}
+              />
             ) : (
               <MoonIcon
                 width={25}
                 height={25}
                 onClick={() => setDark(!dark)}
-                className="text-black"
+                className=" hover: cursor-pointer text-black"
               />
             )}
             <div onClick={handleNav}>
               <AiOutlineMenu
                 size={25}
-                className={` ${dark ? "" : "text-black"}`}
+                className={`hover:cursor-pointer ${dark ? "" : "text-black"}`}
               />
             </div>
           </div>
