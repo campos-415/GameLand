@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FaGamepad, FaShoppingBag } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import { useRecoilState } from "recoil";
-import { darkState } from "../atoms/darkAtom";
+import { darkState } from "../atoms/statesAtom";
 import { Data, Game, Movie } from "../typings";
 import { renderPlatformIcons, renderStoreIcons } from "../constants/gameConst";
 import {

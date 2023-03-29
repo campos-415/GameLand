@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Game, Genres, Platform, Stores } from "../typings";
-import { useRecoilState } from "recoil";
-import { darkState } from "../atoms/darkAtom";
+import { useRecoilValue } from "recoil";
+import { darkState } from "../atoms/statesAtom";
 import Link from "next/link";
 import esrb_m from "../public/assets/ratings/esrb-m.svg";
 import esrb_t from "../public/assets/ratings/esrb-t.svg";
@@ -22,6 +22,7 @@ import useAuth from "../hooks/useAuth";
 import { db } from "../firebase";
 import { toast, Toaster } from "react-hot-toast";
 import { CheckCircleIcon, PlusCircleIcon } from "@heroicons/react/solid";
+import Loading from "./Loading";
 
 interface Props {
   games: Game;
@@ -68,9 +69,8 @@ const esrbImages: { [key: string]: string } = {
   "Rating Pending": esrb_e,
 };
 
-function NowTrending({ games }: Props) {
-  const [dark, setDark] = useRecoilState(darkState);
-  const [loading, setLoading] = useState(false);
+function GameComponent({ games }: Props) {
+  const dark = useRecoilValue(darkState)
   const [game, setGame] = useState<Game>();
   const [gameList, setGameList] = useState<DocumentData[] | any | Game>();
   const [gameListId, setGameListId] = useState<DocumentData[] | string[]>();
@@ -78,9 +78,7 @@ function NowTrending({ games }: Props) {
   const { user } = useAuth();
 
   useEffect(() => {
-    setLoading(false);
     setGame(games);
-    setLoading(true);
   }, []);
 
   //GETTING MYLIST OF GAMES FROM THE DATABASE
@@ -131,59 +129,19 @@ function NowTrending({ games }: Props) {
 
   return (
     <>
-      <Toaster position="bottom-center" />
+      <Link href={`/mylist`}>
+        <Toaster position="bottom-center" />
+      </Link>
 
-      {!loading ? (
+      {games ? (
         <div
-          className={` rounded-md flex justify-center ml-3 max-w-[300px] mb-12 hover:cursor-pointer ${
-            dark ? "bg-[#1d1c1c]" : " bg-slate-200"
-          } items-center`}>
-          <div className="relative flex flex-col justify-center group">
-            <div
-              className=" relative group h-28 min-w-[300px] cursor-pointer 
-          transition duration-200 ease-in-out ">
-              <div
-                className={`w-full h-full ${
-                  dark ? "bg-slate-200" : "bg-[#1d1c1c]"
-                } rounded-md`}></div>
-            </div>
-            <div
-              className={`flex justify-between pt-6 mx-2 ${
-                !dark ? "text-black" : ""
-              }`}>
-              <div
-                className={`flex justify-between w-32 ${
-                  dark ? "bg-slate-200" : "bg-[#1c1d1d]"
-                } rounded-m`}></div>
-              <div
-                className={`w-6 h-6 ${
-                  dark ? "bg-slate-200" : "bg-[#1d1c1c]"
-                }`}></div>
-            </div>
-            <div
-              className={`flex justify-between pt-6 mx-2 mb-6 ${
-                !dark ? "text-black" : ""
-              }`}>
-              <div
-                className={`flex justify-between w-full ${
-                  dark ? "bg-slate-200" : "bg-[#1c1d1d]"
-                } rounded-m`}></div>
-              <div
-                className={`w-6 h-6 ${
-                  dark ? "bg-slate-200" : "bg-[#1d1c1c]"
-                }`}></div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div
-          className={` rounded-sm flex justify-center ml-3 group mb-12 ${
+          className={` rounded-sm flex justify-center ml-3 group mb-8 ${
             dark ? "bg-[#1d1c1c]" : " bg-slate-200"
           } items-center`}>
           <div className=" relative flex flex-col justify-center ">
-            <div className="relative h-28 min-w-[300px] transition duration-200 ease-in-out ">
+            <div className="relative h-48 min-w-[300px] transition duration-200 ease-in-out ">
               <Image
-                className="rounded-t-md object-cover md:rounded"
+                className="rounded-t-md object-cover md:rounded group-hover:blur-sm overflow-hidden"
                 src={games?.background_image}
                 fill
                 alt="/"
@@ -200,9 +158,9 @@ function NowTrending({ games }: Props) {
               </div>
               <div className="flex space-x-2  ">
                 <div className="w-full h-auto">
-                  {game?.esrb_rating?.name && (
+                  {games?.esrb_rating?.name && (
                     <Image
-                      src={esrbImages[game?.esrb_rating?.name]}
+                      src={esrbImages[games?.esrb_rating?.name]}
                       width={30}
                       height={30}
                       alt="rating"
@@ -223,8 +181,8 @@ function NowTrending({ games }: Props) {
                 !dark ? "invert" : ""
               } pb-8`}>
               <Link href={`/${games?.id}`}>
-                <h1 className="overflow-clip max-w-[250px] hover:cursor-pointer max-h-[25px] font-bold ">
-                  {game?.name}
+                <h1 className="overflow-clip max-w-[250px] hover:cursor-pointer hover:underline max-h-[25px] font-bold ">
+                  {games?.name}
                 </h1>
               </Link>
               <button onClick={handleList}>
@@ -236,19 +194,26 @@ function NowTrending({ games }: Props) {
               </button>
             </div>
             <div
-              className={`absolute -bottom-[200px] hidden group-hover:inline group-hover:z-30  rounded-b-md  h-full ${
-                dark ? "bg-[#1d1c1c]" : " bg-slate-200 text-black "
-              }  w-full px-2 pt-2 `}>
-              <p className="text-sm flex items-center justify-between border-b border-gray-600 mb-3">
+              className={`absolute  bottom-0 -z-10 group-hover:z-30  group-hover:translate-y-[-100px]
+               transition-all duration-300 ease-in-out rounded-md ${
+                 dark
+                   ? "bg-[#141414c0] text-[#5156e5]"
+                   : " bg-[rgba(226,232,240,0.54)] text-[#5156e5] "
+               }  w-full px-2  `}>
+              <p className="text-sm flex items-center justify-between border-b pt-4 border-gray-600 mb-3">
                 Released Date:{" "}
-                <span className="text-[#4a4949] text-xs">{game?.released}</span>
+                <span className={`px-1 text-xs ${dark ? "text-white" : "text-black"}`}>
+                  {games?.released}
+                </span>
               </p>
-              <div className="flex justify-between border-b border-gray-600 mb-3 ">
+              <div className="flex justify-between border-b border-gray-600 mb-3 space-x-2">
                 <p className=" items-center">Genres: </p>
                 <div>
-                  {game?.genres.map((genre: Genres) => (
+                  {games?.genres.map((genre: Genres) => (
                     <span
-                      className=" text-[#4a4949] text-xs w-full"
+                      className={`px-1 text-xs  ${
+                        dark ? "text-white" : "text-black"
+                      }`}
                       key={genre?.id}>
                       {genre?.name}
                       {", "}
@@ -256,12 +221,14 @@ function NowTrending({ games }: Props) {
                   ))}
                 </div>
               </div>
-              <div className="flex justify-between border-b border-gray-600 mb-3">
+              <div className="flex justify-between border-b border-gray-600 mb-3 space-x-2">
                 <p className=" items-center">Platforms: </p>
                 <div className="">
-                  {game?.platforms.map((plat: Platform) => (
+                  {games?.platforms.map((plat: Platform) => (
                     <span
-                      className=" px-1 text-[#4a4949] text-xs w-full "
+                      className={`px-1 text-xs ${
+                        dark ? "text-white" : "text-black"
+                      }`}
                       key={plat?.id}>
                       {plat?.platform.name}
                       {", "}
@@ -269,12 +236,14 @@ function NowTrending({ games }: Props) {
                   ))}
                 </div>
               </div>
-              <div className="flex justify-between border-b border-gray-600 mb-3 ">
+              <div className="flex justify-between border-b border-gray-600 mb-3 space-x-2">
                 <p className=" items-center">Stores: </p>
                 <div className="">
-                  {game?.stores?.map((store: Stores) => (
+                  {games?.stores?.map((store: Stores) => (
                     <span
-                      className=" px-1 text-[#4a4949] text-xs w-full "
+                      className={`px-1 text-xs  ${
+                        dark ? "text-white" : "text-black"
+                      }`}
                       key={store?.id}>
                       {store?.store?.name}
                       {", "}
@@ -285,9 +254,11 @@ function NowTrending({ games }: Props) {
             </div>
           </div>
         </div>
+      ) : (
+        <Loading />
       )}
     </>
   );
 }
 
-export default NowTrending;
+export default GameComponent;

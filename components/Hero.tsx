@@ -1,9 +1,10 @@
 import { DocumentData } from "firebase/firestore";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { darkState } from "../atoms/darkAtom";
+import { darkState } from "../atoms/statesAtom";
 import { Game } from "../typings";
-import NowTrending from "./NowTrending";
+import GameComponent from "./GameComponent";
+
 
 interface Props {
   item: Game | any | DocumentData[]
@@ -22,7 +23,7 @@ function Hero({ item, title }: Props) {
 
         <div className="mx-auto flex flex-wrap items-center justify-center max-w-[1240px]">
           {item?.map((game:Game) => (
-            <NowTrending games={game} key={game.id} />
+            <GameComponent games={game} key={game.id} />
           ))}
         </div>
       </div>

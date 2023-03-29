@@ -3,29 +3,26 @@ import { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { User } from "../typings";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { storage, db } from "../firebase";
 import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
 import { TailSpin } from "react-loader-spinner";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { darkState, sideBarState } from "../atoms/darkAtom";
+import { useRecoilValue } from "recoil";
+import { darkState, sideBarState } from "../atoms/statesAtom";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { PhotographIcon, XIcon } from "@heroicons/react/solid";
-import { async } from "@firebase/util";
+import { PacmanLoader } from "react-spinners";
 
 function Login() {
   const [loading, setLoading] = useState(false);
+  const [logOutLoading, setLogOutLoading] = useState(false);
   const dark = useRecoilValue(darkState);
   const sideBar = useRecoilValue(sideBarState);
   const router = useRouter();
   const { user, logOut } = useAuth();
-  const User = useUser(user!.uid);
-
-  const [input, setInput] = useState("");
+  const User = useUser(user!?.uid);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [currentImage, currentImagen] = useState(User?.userImage);
-  // const [showEmojis, setShowEmojis] = useRecoilState(showEmoji);
   const filePickerRef = useRef<any>(null);
   const {
     register,
@@ -94,10 +91,58 @@ function Login() {
             className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
             onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <h1 className="text-3xl md:text-4xl">Account <span className="text-[#5156e5]">Settings</span></h1>
+              <h1 className="text-3xl md:text-4xl">
+                Account <span className="text-[#5156e5]">Settings</span>
+              </h1>
               <div className="-ml-0.5 flex items-center gap-x-1.5"></div>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4 flex items-center justify-center flex-col ">
+              <div className="relative">
+                <img
+                  src={User?.userImage}
+                  alt="userImg"
+                  className="rounded-2xl w-40 object-cover"
+                />
+                <div>
+                  {selectedFile && (
+                    <div className="relative">
+                      <div
+                        className="absolute  -top-36 left-44 w-8 h-8 bg-[#15181c] hover:bg-[#272c26] 
+                      bg-opacity-75 rounded-full flex items-center justify-center z-40
+                      cursor-pointer"
+                        onClick={() => setSelectedFile(null)}>
+                        <XIcon className="text-white h-5" />
+                      </div>
+                      <img
+                        src={selectedFile}
+                        alt="userImg"
+                        className="absolute -top-36 left-44 rounded-2xl max-h-32 md:max-h-40 object-contain"
+                      />
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between pt-2.5">
+                    <div className="flex items-center">
+                      <div
+                        className="icon flex space-x-1"
+                        onClick={() => filePickerRef.current!.click()!}>
+                        <PhotographIcon className="text-[#5156e5] h-[22px]" />
+                        <label
+                          className={`${!dark ? "text-white" : "text-white"}`}>
+                          {" "}
+                          Select Profile Picture
+                          <input
+                            type="file"
+                            ref={filePickerRef}
+                            hidden
+                            onChange={addImageToPost}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <label className="inline-block w-full">
                 <input
                   type="text"
@@ -118,49 +163,6 @@ function Login() {
                   }`}
                 />
               </label>
-              <div
-                className={`${selectedFile && "pb-7"} ${
-                  input && "space-y-2.5"
-                }`}>
-                {selectedFile && (
-                  <div className="relative">
-                    <div
-                      className="absolute w-8 h-8 bg-[#15181c] hover:bg-[#272c26] 
-                      bg-opacity-75 rounded-full flex items-center justify-center top-1 left-1 
-                      cursor-pointer"
-                      onClick={() => setSelectedFile(null)}>
-                      <XIcon className="text-white h-5" />
-                    </div>
-                    <img
-                      src={selectedFile}
-                      alt="userImg"
-                      className="rounded-2xl max-h-80 object-contain"
-                    />
-                  </div>
-                )}
-                <div className="flex items-center justify-between pt-2.5">
-                  <div className="flex items-center">
-                    <div
-                      className="icon"
-                      onClick={() => filePickerRef.current!.click()!}>
-                      <PhotographIcon className="text-[#5156e5] h-[22px]" />
-                      <label
-                        className={`${
-                          !dark ? "text-[#999fff]" : "text-[#333]"
-                        }`}>
-                        {" "}
-                        Select Profile Picture
-                        <input
-                          type="file"
-                          ref={filePickerRef}
-                          hidden
-                          onChange={addImageToPost}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="flex items-center justify-center flex-col">
               <button
@@ -168,21 +170,14 @@ function Login() {
                 onClick={() => handleSubmit}
                 type="submit">
                 {loading ? (
-                  <TailSpin
-                    height="40"
-                    width="40"
-                    color="#fff"
-                    ariaLabel="tail-spin-loading"
-                    radius="0.8"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                    visible={true}
-                  />
+                  <>
+                    <PacmanLoader color="#36d7b7" />
+                  </>
                 ) : (
                   "Save"
                 )}
               </button>
-              <p className={` ${dark ? "text-gray-700" : "text-white"} py-1 `}>
+              <p className={` ${dark ? "text-gray-700" : "text-[#999]"} py-1 `}>
                 OR
               </p>
               <button
@@ -223,32 +218,23 @@ function Login() {
           </div>
           <div className="flex items-center justify-center flex-col">
             <button
-              className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5] flex items-center justify-center"
+              className={`w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white ${
+                loading ? "hover:bg-[#5156e5]" : ""
+              } hover:text-[#5165e5] flex items-center justify-center`}
               onClick={() => setLoading(true)}
               type="submit">
-              {loading ? (
-                <TailSpin
-                  height="40"
-                  width="40"
-                  color="#fff"
-                  ariaLabel="tail-spin-loading"
-                  radius="0.8"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                  visible={true}
-                />
-              ) : (
-                "Save"
-              )}
+              {loading ? <PacmanLoader color="black" size={12} /> : "Save"}
             </button>
             <p className={` ${dark ? "text-gray-700" : "text-white"} py-1 `}>
               OR
             </p>
             <button
-              className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5]"
-              onClick={logOut}
-              type="submit">
-              Log Out
+              className={`w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white ${
+                loading ? "hover:bg-[#5156e5]" : ""
+              } hover:text-[#5165e5] flex items-center justify-center`}
+                onClick={logOut}
+              type="button">
+              {loading ? <PacmanLoader color="black" size={12} /> : "Log Out"}
             </button>
           </div>
         </form>

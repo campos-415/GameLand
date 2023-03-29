@@ -1,6 +1,6 @@
 import Head from "next/head";
 import {  useRecoilValue } from "recoil";
-import { darkState, sideBarState } from "../../atoms/darkAtom";
+import { darkState, sideBarState } from "../../atoms/statesAtom";
 import CardComponent from "../../components/CardComponent";
 import { Genres } from "../../typings";
 

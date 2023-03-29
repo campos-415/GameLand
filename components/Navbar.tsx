@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { darkState, sideBarState } from "../atoms/darkAtom";
+import { darkState, sideBarState } from "../atoms/statesAtom";
 import { AiOutlineMenu } from "react-icons/ai";
-import { DotsHorizontalIcon, UserIcon } from "@heroicons/react/solid";
+import { UserIcon } from "@heroicons/react/solid";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
-import Image from "next/image";
 
 function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
@@ -160,7 +159,9 @@ function Navbar() {
                   {User?.userImage ? (
                     <>
                       <div
-                        className={`${dark ? "text-white" : "text-black"} text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5`}
+                        className={`${
+                          dark ? "text-white" : "text-black"
+                        } text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5`}
                         onClick={() => router.push(`/user`)}>
                         <img
                           src={User?.userImage}
@@ -169,9 +170,13 @@ function Navbar() {
                         />
                         <div className=" leading-5 ">
                           <h4 className="font-bold text-sm ">
-                            {(
-                              User?.firstName[0] + User?.lastName[0]
-                            ).toString()}
+                            {User?.firstName ? (
+                              (
+                                User?.firstName[0] + User?.lastName[0]
+                              ).toString()
+                            ) : (
+                              <></>
+                            )}
                           </h4>
                         </div>
                       </div>
@@ -188,7 +193,12 @@ function Navbar() {
                       />
                       <div className=" leading-5 ">
                         <h4 className="font-bold text-sm">
-                          {(User?.firstName[0] + User?.lastName[0]).toString()}
+                          {User?.firstName ? (
+                            (User?.firstName[0] + User?.lastName[0]).toString()
+                          ) : (
+                            <></>
+                          )}
+
                         </h4>
                       </div>
                     </>

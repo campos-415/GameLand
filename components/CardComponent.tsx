@@ -1,8 +1,8 @@
 import { AiOutlineUser } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { darkState } from "../atoms/darkAtom";
+import { useRecoilValue } from "recoil";
+import { darkState } from "../atoms/statesAtom";
 import { Games, Genres } from "../typings";
 import Link from "next/link";
 import { CgGames } from "react-icons/cg";
@@ -13,7 +13,7 @@ interface Props {
 }
 
 function CardComponent({ item, title }: Props) {
-  const [dark, setDark] = useRecoilState(darkState);
+  const dark = useRecoilValue(darkState);
   const router = useRouter();
   const id = router.asPath;
 

@@ -1,9 +1,8 @@
 import { DocumentData } from "firebase/firestore";
 import Head from "next/head";
 import { useRecoilValue } from "recoil";
-import { darkState, sideBarState } from "../atoms/darkAtom";
+import { darkState, sideBarState } from "../atoms/statesAtom";
 import Hero from "../components/Hero";
-
 import useAuth from "../hooks/useAuth";
 import useList from "../hooks/useList";
 import { Game } from "../typings";
@@ -27,13 +26,12 @@ const Home = ({ newGames }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
       <main className="relative pt-32 lg:space-y-24  max-w-[1240px] mx-auto">
-        <section className="max-w-[1240px] mx-auto flex items-center justify-center">
-          <Hero item={newGames} title="New Release" />
-        </section>
         <section className="md:space-y-24 ">
           {list?.length > 0 && <Hero item={list} title="My List" />}
+        </section>
+        <section className="max-w-[1240px] mx-auto flex items-center justify-center">
+          <Hero item={newGames} title="New Release" />
         </section>
       </main>
     </div>

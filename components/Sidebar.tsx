@@ -1,22 +1,18 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { darkState, sideBarState } from "../atoms/darkAtom";
+import { useRecoilState } from "recoil";
+import { darkState, sideBarState } from "../atoms/statesAtom";
 import { AiOutlineClose } from "react-icons/ai";
-import { MoonIcon, UserCircleIcon, UserIcon } from "@heroicons/react/solid";
-import { HiClipboardList, HiCode, HiOutlineLightBulb } from "react-icons/hi";
-import useAuth from "../hooks/useAuth";
-import useUser from "../hooks/useUser";
-import { FaCode, FaGamepad, FaGhost, FaHome, FaList, FaListUl, FaSlackHash, FaStore } from "react-icons/fa";
+import { MoonIcon } from "@heroicons/react/solid";
+import { HiClipboardList, HiOutlineLightBulb } from "react-icons/hi";
+import { FaCode, FaGamepad, FaGhost, FaHome, FaSlackHash, FaStore } from "react-icons/fa";
 import { IoMdAlbums, IoMdPeople } from "react-icons/io";
-
+import { MdManageAccounts } from 'react-icons/md'
 function Sidebar() {
   const [dark, setDark] = useRecoilState(darkState);
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
   const router = useRouter();
   const id = router.asPath;
-  const { user } = useAuth();
-  const User = useUser(user!?.uid);
 
   function handleNav() {
     setSideBar(!sideBar);
@@ -27,7 +23,7 @@ function Sidebar() {
       <div
         className={
           sideBar
-            ? `fixed top-0 left-0 w-[75%] sm:w-[60%] md:w-[35%]
+            ? `fixed top-0 left-0 w-[50%] sm:w-[40%] md:w-[35%]
          h-screen ease-in-out duration-500 ${
            dark ? "bg-[#141414]" : "bg-white"
          }`
@@ -46,50 +42,16 @@ function Sidebar() {
               </div>
             </Link>
             <div
-              className=" rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer"
+              className=" rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer hover:scale-125"
               onClick={handleNav}>
               <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
             </div>
           </div>
-          <div className="border-b flex justify-center border-gray-300 my-4 space-x-3 py-2">
-            <div>
-              {User?.userImage ? (
-                <>
-                  <div
-                    className={`${
-                      dark ? "text-white" : "text-black"
-                    } text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto `}
-                    onClick={() => router.push(`/user`)}>
-                    <img
-                      src={User?.userImage}
-                      className="h-10 w-10 rounded-full xl:mr-2.5"
-                      alt="userImg"
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <UserIcon
-                    width={25}
-                    height={25}
-                    className={`hover:cursor-pointer ml-2 ${
-                      dark ? "" : "text-black"
-                    }`}
-                    onClick={() => router.push("/user")}
-                  />
-                  <div className=" leading-5 ">
-                    <h4 className="font-bold text-sm">
-                      {(User?.firstName[0] + User?.lastName[0]).toString()}
-                    </h4>
-                  </div>
-                </>
-              )}
-            </div>
-
+          <div className="border-b flex justify-end border-gray-300 my-4 space-x-3 py-2">
             <div className="flex justify-center items-center space-y-2">
               {dark ? (
                 <HiOutlineLightBulb
-                  className="hover:cursor-pointer"
+                  className="hover:cursor-pointer hover:scale-125"
                   size={30}
                   onClick={() => setDark(!dark)}
                 />
@@ -98,7 +60,7 @@ function Sidebar() {
                   width={30}
                   height={30}
                   onClick={() => setDark(!dark)}
-                  className=" hover: cursor-pointer text-black"
+                  className=" hover: cursor-pointer text-black hover:scale-125"
                 />
               )}
             </div>
@@ -239,6 +201,21 @@ function Sidebar() {
                 }>
                 <FaSlackHash />
                 <p>tags</p>
+              </li>
+            </Link>
+            <Link href="/user" onClick={handleNav}>
+              <li
+                className={
+                  dark
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                        id === "/user" ? "text-[#5156e5]" : "text-white"
+                      }`
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                        id === "/user" ? "text-[#5156e5]" : "text-black"
+                      }`
+                }>
+                <MdManageAccounts />
+                <p>account</p>
               </li>
             </Link>
           </ul>

@@ -1,6 +1,5 @@
 import { collection, doc, DocumentData, onSnapshot } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { Game } from "../typings";
 

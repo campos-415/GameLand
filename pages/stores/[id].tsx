@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { darkState, sideBarState } from "../../atoms/darkAtom";
+import { darkState, sideBarState } from "../../atoms/statesAtom";
 import Hero from "../../components/Hero";
 
 const Home = () => {
