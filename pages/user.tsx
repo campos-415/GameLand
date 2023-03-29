@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { PhotographIcon, XIcon } from "@heroicons/react/solid";
+import { async } from "@firebase/util";
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -22,8 +23,8 @@ function Login() {
   const User = useUser(user!.uid);
 
   const [input, setInput] = useState("");
-  const [selectedFile, setSelectedFile] = useState(User?.userImage);
-  // const [currentImage, currentImagen] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [currentImage, currentImagen] = useState(User?.userImage);
   // const [showEmojis, setShowEmojis] = useRecoilState(showEmoji);
   const filePickerRef = useRef<any>(null);
   const {
@@ -55,17 +56,23 @@ function Login() {
 
     handleLoading(data);
     if (data) {
-      await setDoc(doc(db, "users", user!.uid), data);
+      await updateDoc(doc(db, "users", user!.uid), {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        userImage: User?.userImage ||
+          "https://as2.ftcdn.net/v2/jpg/02/29/75/83/1000_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+      });
       if (selectedFile) {
         await uploadString(imageRef, selectedFile, "data_url").then(
           async () => {
             const downloadURL = await getDownloadURL(imageRef);
             await updateDoc(doc(db, "users", user!?.uid), {
-              userImage: downloadURL,
+              userImage:
+                downloadURL 
             });
           }
         );
-      }
+      } 
       router.push(`/`);
     } else {
       setLoading(false);

@@ -164,7 +164,7 @@ function Navbar() {
                         onClick={() => router.push(`/user`)}>
                         <img
                           src={User?.userImage}
-                          className="h-10 w-10 rounded-full xl:mr-2.5 object-cover"
+                          className="h-10 w-10 rounded-full xl:mr-2.5 object-cover mr-1"
                           alt="userImg"
                         />
                         <div className=" leading-5 ">

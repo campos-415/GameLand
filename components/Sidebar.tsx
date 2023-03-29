@@ -4,9 +4,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
 import { AiOutlineClose } from "react-icons/ai";
 import { MoonIcon, UserCircleIcon, UserIcon } from "@heroicons/react/solid";
-import { HiOutlineLightBulb } from "react-icons/hi";
+import { HiClipboardList, HiCode, HiOutlineLightBulb } from "react-icons/hi";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
+import { FaCode, FaGamepad, FaGhost, FaHome, FaList, FaListUl, FaSlackHash, FaStore } from "react-icons/fa";
+import { IoMdAlbums, IoMdPeople } from "react-icons/io";
 
 function Sidebar() {
   const [dark, setDark] = useRecoilState(darkState);
@@ -49,43 +51,41 @@ function Sidebar() {
               <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
             </div>
           </div>
-          <div className="border-b border-gray-300 my-4 flex items-center space-x-3 justify-end py-2">
-            {User?.userImage ? (
-              <>
-                <div
-                  className={`${
-                    dark ? "text-white" : "text-black"
-                  } text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto `}
-                  onClick={() => router.push(`/user`)}>
-                  <img
-                    src={User?.userImage}
-                    className="h-10 w-10 rounded-full xl:mr-2.5"
-                    alt="userImg"
+          <div className="border-b flex justify-center border-gray-300 my-4 space-x-3 py-2">
+            <div>
+              {User?.userImage ? (
+                <>
+                  <div
+                    className={`${
+                      dark ? "text-white" : "text-black"
+                    } text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto `}
+                    onClick={() => router.push(`/user`)}>
+                    <img
+                      src={User?.userImage}
+                      className="h-10 w-10 rounded-full xl:mr-2.5"
+                      alt="userImg"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <UserIcon
+                    width={25}
+                    height={25}
+                    className={`hover:cursor-pointer ml-2 ${
+                      dark ? "" : "text-black"
+                    }`}
+                    onClick={() => router.push("/user")}
                   />
                   <div className=" leading-5 ">
                     <h4 className="font-bold text-sm">
                       {(User?.firstName[0] + User?.lastName[0]).toString()}
                     </h4>
                   </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <UserIcon
-                  width={25}
-                  height={25}
-                  className={`hover:cursor-pointer ml-2 ${
-                    dark ? "" : "text-black"
-                  }`}
-                  onClick={() => router.push("/user")}
-                />
-                <div className=" leading-5 ">
-                  <h4 className="font-bold text-sm">
-                    {(User?.firstName[0] + User?.lastName[0]).toString()}
-                  </h4>
-                </div>
-              </>
-            )}
+                </>
+              )}
+            </div>
+
             <div className="flex justify-center items-center space-y-2">
               {dark ? (
                 <HiOutlineLightBulb
@@ -110,126 +110,135 @@ function Sidebar() {
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `flex items-center space-x-3 ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `flex items-center space-x-3 ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                home
+                <FaHome />
+                <p>home</p>
               </li>
             </Link>
             <Link href="/mylist" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/mylist" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/mylist" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                my list
+                <HiClipboardList />
+                <p>my list</p>
               </li>
             </Link>
             <Link href="/genres" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/genres" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/genres" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                genres
+                <FaGhost />
+                <p>genres</p>
               </li>
             </Link>
             <Link href="/platforms" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/platforms" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/platforms" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                platforms
+                <FaGamepad />
+                <p>Platforms</p>
               </li>
             </Link>
             <Link href="/creators" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/creators" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/creators" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                creators
+                <IoMdPeople />
+                <p>creators</p>
               </li>
             </Link>
             <Link href="/stores" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/stores" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/stores" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                stores
+                <FaStore />
+                <p>stores</p>
               </li>
             </Link>
             <Link href="/publishers" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/publishers" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/publishers" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                publishers
+                <IoMdAlbums />
+                <p>publishers</p>
               </li>
             </Link>
             <Link href="/developers" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/developers" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/developers" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                developers
+                <FaCode />
+                <p>developers</p>
               </li>
             </Link>
             <Link href="/tags" onClick={handleNav}>
               <li
                 className={
                   dark
-                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                    ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
                         id === "/tags" ? "text-[#5156e5]" : "text-white"
                       }`
-                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                    : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
                         id === "/tags" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                tags
+                <FaSlackHash />
+                <p>tags</p>
               </li>
             </Link>
           </ul>

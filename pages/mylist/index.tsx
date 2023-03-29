@@ -15,7 +15,7 @@ const MyList = () => {
 
   return (
     <div
-      className={` h-full ${dark ? " bg-[#141414]" : "bg-white"} ${
+      className={` h-screen ${dark ? " bg-[#141414]" : "bg-white"} ${
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
