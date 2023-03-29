@@ -195,7 +195,7 @@ function NowTrending({ games }: Props) {
               className={`flex justify-between pt-6 mx-2 ${
                 !dark ? "text-black" : ""
               }`}>
-              <div className="flex w-48 text-lg justify-start space-x-1 ">
+              <div className="flex text-lg justify-start space-x-1 ">
                 {renderPlatformIcons(games?.platforms)}
               </div>
               <div className="flex space-x-2  ">
@@ -223,7 +223,7 @@ function NowTrending({ games }: Props) {
                 !dark ? "invert" : ""
               } pb-8`}>
               <Link href={`/${games?.id}`}>
-                <h1 className="overflow-scroll max-w-[250px] hover:cursor-pointer max-h-[25px] font-bold ">
+                <h1 className="overflow-clip max-w-[250px] hover:cursor-pointer max-h-[25px] font-bold ">
                   {game?.name}
                 </h1>
               </Link>

@@ -22,7 +22,8 @@ function Login() {
   const User = useUser(user!.uid);
 
   const [input, setInput] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(User?.userImage);
+  // const [currentImage, currentImagen] = useState("");
   // const [showEmojis, setShowEmojis] = useRecoilState(showEmoji);
   const filePickerRef = useRef<any>(null);
   const {
@@ -86,7 +87,7 @@ function Login() {
             className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
             onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <h1 className="text-3xl md:text-4xl">Account</h1>
+              <h1 className="text-3xl md:text-4xl">Account <span className="text-[#5156e5]">Settings</span></h1>
               <div className="-ml-0.5 flex items-center gap-x-1.5"></div>
             </div>
             <div className="space-y-4">

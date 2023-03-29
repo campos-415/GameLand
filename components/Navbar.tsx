@@ -160,15 +160,15 @@ function Navbar() {
                   {User?.userImage ? (
                     <>
                       <div
-                        className="text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5"
+                        className={`${dark ? "text-white" : "text-black"} text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5`}
                         onClick={() => router.push(`/user`)}>
                         <img
                           src={User?.userImage}
-                          className="h-10 w-10 rounded-full xl:mr-2.5"
+                          className="h-10 w-10 rounded-full xl:mr-2.5 object-cover"
                           alt="userImg"
                         />
                         <div className=" leading-5 ">
-                          <h4 className="font-bold text-sm">
+                          <h4 className="font-bold text-sm ">
                             {(
                               User?.firstName[0] + User?.lastName[0]
                             ).toString()}

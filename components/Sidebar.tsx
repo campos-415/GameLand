@@ -49,11 +49,13 @@ function Sidebar() {
               <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
             </div>
           </div>
-          <div className="border-b border-gray-300 my-4 flex items-center space-x-2 justify-end py-2">
+          <div className="border-b border-gray-300 my-4 flex items-center space-x-3 justify-end py-2">
             {User?.userImage ? (
               <>
                 <div
-                  className="text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5"
+                  className={`${
+                    dark ? "text-white" : "text-black"
+                  } text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto `}
                   onClick={() => router.push(`/user`)}>
                   <img
                     src={User?.userImage}
