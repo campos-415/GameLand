@@ -3,18 +3,25 @@ import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
 import { AiOutlineClose } from "react-icons/ai";
+import { MoonIcon, UserCircleIcon, UserIcon } from "@heroicons/react/solid";
+import { HiOutlineLightBulb } from "react-icons/hi";
+import useAuth from "../hooks/useAuth";
+import useUser from "../hooks/useUser";
 
 function Sidebar() {
-  const dark = useRecoilValue(darkState);
+  const [dark, setDark] = useRecoilState(darkState);
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
   const router = useRouter();
   const id = router.asPath;
+  const { user } = useAuth();
+  const User = useUser(user!?.uid);
 
   function handleNav() {
     setSideBar(!sideBar);
   }
   return (
-    <div className={sideBar ? `w-full h-[120vh] -translate-y-4  bg-black/70` : ""}>
+    <div
+      className={sideBar ? `w-full h-[120vh] -translate-y-4  bg-black/70` : ""}>
       <div
         className={
           sideBar
@@ -42,11 +49,60 @@ function Sidebar() {
               <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
             </div>
           </div>
-          <div className="border-b border-gray-300 my-4 flex items-center justify-center py-2">
-              
+          <div className="border-b border-gray-300 my-4 flex items-center space-x-2 justify-end py-2">
+            {User?.userImage ? (
+              <>
+                <div
+                  className="text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5"
+                  onClick={() => router.push(`/user`)}>
+                  <img
+                    src={User?.userImage}
+                    className="h-10 w-10 rounded-full xl:mr-2.5"
+                    alt="userImg"
+                  />
+                  <div className=" leading-5 ">
+                    <h4 className="font-bold text-sm">
+                      {(User?.firstName[0] + User?.lastName[0]).toString()}
+                    </h4>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <UserIcon
+                  width={25}
+                  height={25}
+                  className={`hover:cursor-pointer ml-2 ${
+                    dark ? "" : "text-black"
+                  }`}
+                  onClick={() => router.push("/user")}
+                />
+                <div className=" leading-5 ">
+                  <h4 className="font-bold text-sm">
+                    {(User?.firstName[0] + User?.lastName[0]).toString()}
+                  </h4>
+                </div>
+              </>
+            )}
+            <div className="flex justify-center items-center space-y-2">
+              {dark ? (
+                <HiOutlineLightBulb
+                  className="hover:cursor-pointer"
+                  size={30}
+                  onClick={() => setDark(!dark)}
+                />
+              ) : (
+                <MoonIcon
+                  width={30}
+                  height={30}
+                  onClick={() => setDark(!dark)}
+                  className=" hover: cursor-pointer text-black"
+                />
+              )}
             </div>
+          </div>
         </div>
-        <div className="pb-4 pt-24 px-10 flex flex-col ">
+        <div className="pb-4 pt-12 px-10 flex flex-col ">
           <ul className="uppercase text-left w-auto ">
             <Link href="/" onClick={handleNav}>
               <li
@@ -60,6 +116,20 @@ function Sidebar() {
                       }`
                 }>
                 home
+              </li>
+            </Link>
+            <Link href="/mylist" onClick={handleNav}>
+              <li
+                className={
+                  dark
+                    ? `ml-10 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                        id === "/mylist" ? "text-[#5156e5]" : "text-white"
+                      }`
+                    : `ml-10 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                        id === "/mylist" ? "text-[#5156e5]" : "text-black"
+                      }`
+                }>
+                my list
               </li>
             </Link>
             <Link href="/genres" onClick={handleNav}>

@@ -1,25 +1,30 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { User } from "../typings";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { storage, db } from "../firebase";
 import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
 import { TailSpin } from "react-loader-spinner";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
-
-
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { PhotographIcon, XIcon } from "@heroicons/react/solid";
 
 function Login() {
   const [loading, setLoading] = useState(false);
-  const dark = useRecoilValue(darkState)
-  const sideBar = useRecoilValue(sideBarState)
+  const dark = useRecoilValue(darkState);
+  const sideBar = useRecoilValue(sideBarState);
   const router = useRouter();
   const { user, logOut } = useAuth();
-  const User = useUser(user!?.uid);
+  const User = useUser(user!.uid);
+
+  const [input, setInput] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  // const [showEmojis, setShowEmojis] = useRecoilState(showEmoji);
+  const filePickerRef = useRef<any>(null);
   const {
     register,
     handleSubmit,
@@ -28,25 +33,43 @@ function Login() {
 
   function handleLoading(data: any) {
     if (data) {
-      setLoading(true)
-    }
-    else {
-      setLoading(false)
+      setLoading(true);
+    } else {
+      setLoading(false);
     }
   }
-  const onSubmit: SubmitHandler<User> = async (data) => {
-    handleLoading(data)
-    if (data) {
-      await setDoc(doc(db, "users", user!.uid), data);
-      router.push(`/`);
-
-    } else {
-      setLoading(false)
+  const addImageToPost = (e: any) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
     }
-    
+
+    reader.onload = (readerEvent: any) => {
+      setSelectedFile(readerEvent.target.result);
+    };
   };
 
+  const onSubmit: SubmitHandler<User> = async (data) => {
+    const imageRef = ref(storage, `users/${user!?.uid}/image`);
 
+    handleLoading(data);
+    if (data) {
+      await setDoc(doc(db, "users", user!.uid), data);
+      if (selectedFile) {
+        await uploadString(imageRef, selectedFile, "data_url").then(
+          async () => {
+            const downloadURL = await getDownloadURL(imageRef);
+            await updateDoc(doc(db, "users", user!?.uid), {
+              userImage: downloadURL,
+            });
+          }
+        );
+      }
+      router.push(`/`);
+    } else {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -87,6 +110,49 @@ function Login() {
                   }`}
                 />
               </label>
+              <div
+                className={`${selectedFile && "pb-7"} ${
+                  input && "space-y-2.5"
+                }`}>
+                {selectedFile && (
+                  <div className="relative">
+                    <div
+                      className="absolute w-8 h-8 bg-[#15181c] hover:bg-[#272c26] 
+                      bg-opacity-75 rounded-full flex items-center justify-center top-1 left-1 
+                      cursor-pointer"
+                      onClick={() => setSelectedFile(null)}>
+                      <XIcon className="text-white h-5" />
+                    </div>
+                    <img
+                      src={selectedFile}
+                      alt="userImg"
+                      className="rounded-2xl max-h-80 object-contain"
+                    />
+                  </div>
+                )}
+                <div className="flex items-center justify-between pt-2.5">
+                  <div className="flex items-center">
+                    <div
+                      className="icon"
+                      onClick={() => filePickerRef.current!.click()!}>
+                      <PhotographIcon className="text-[#5156e5] h-[22px]" />
+                      <label
+                        className={`${
+                          !dark ? "text-[#999fff]" : "text-[#333]"
+                        }`}>
+                        {" "}
+                        Select Profile Picture
+                        <input
+                          type="file"
+                          ref={filePickerRef}
+                          hidden
+                          onChange={addImageToPost}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="flex items-center justify-center flex-col">
               <button

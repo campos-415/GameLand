@@ -4,20 +4,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { darkState, sideBarState} from "../atoms/darkAtom";
+import { darkState, sideBarState } from "../atoms/darkAtom";
 import { AiOutlineMenu } from "react-icons/ai";
-import { UserIcon } from "@heroicons/react/solid";
+import { DotsHorizontalIcon, UserIcon } from "@heroicons/react/solid";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
-
+import Image from "next/image";
 
 function Navbar() {
   const [dark, setDark] = useRecoilState(darkState);
-
-  const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
-  const {  user } = useAuth();
+  const [sideBar, setSideBar] = useRecoilState(sideBarState);
+  const { user } = useAuth();
   const User = useUser(user!?.uid);
-  const [shadow, setShadow] = useState<boolean>(false);
+  const [shadow, setShadow] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
   const router = useRouter();
   const id = router.asPath;
@@ -87,7 +86,7 @@ function Navbar() {
               }`
         }
       `}>
-      <div className="flex justify-between items-center w-full h-full px-2 2xl:px-16 max-w-[1240px] mx-auto">
+      <div className="flex justify-between items-center w-full h-full px-2 2xl:px-16 max-w-[1240 mx-auto">
         <Link href="/">
           <div className="flex items-center absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6">
             <h1 className="text-2xl font-bold">
@@ -157,16 +156,43 @@ function Navbar() {
                         id === "/user" ? "text-[#5156e5]" : "text-black"
                       }`
                 }>
-                <div className="flex justify-between items-center">
-                  {(User?.firstName[0] + User?.lastName[0]).toString()}
-                  <UserIcon
-                    width={25}
-                    height={25}
-                    className={`hover:cursor-pointer ml-2 ${
-                      dark ? "" : "text-black"
-                    }`}
-                    onClick={() => router.push("/user")}
-                  />
+                <div className="flex justify-between items-center mr-4">
+                  {User?.userImage ? (
+                    <>
+                      <div
+                        className="text-[#d9d9d9] flex items-center justify-center mt-auto hover:cursor-pointer ml-auto xl:-mr-5"
+                        onClick={() => router.push(`/user`)}>
+                        <img
+                          src={User?.userImage}
+                          className="h-10 w-10 rounded-full xl:mr-2.5"
+                          alt="userImg"
+                        />
+                        <div className=" leading-5 ">
+                          <h4 className="font-bold text-sm">
+                            {(
+                              User?.firstName[0] + User?.lastName[0]
+                            ).toString()}
+                          </h4>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <UserIcon
+                        width={25}
+                        height={25}
+                        className={`hover:cursor-pointer ml-2 ${
+                          dark ? "" : "text-black"
+                        }`}
+                        onClick={() => router.push("/user")}
+                      />
+                      <div className=" leading-5 ">
+                        <h4 className="font-bold text-sm">
+                          {(User?.firstName[0] + User?.lastName[0]).toString()}
+                        </h4>
+                      </div>
+                    </>
+                  )}
                 </div>
               </li>
             </Link>

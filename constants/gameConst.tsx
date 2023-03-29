@@ -27,22 +27,22 @@ import { Platform, Stores } from "../typings";
  type PlatformName = Platform["platform"]["name"];
 
 const platformIconMap: Record<PlatformName, React.ReactNode> = {
-  "PlayStation 5": <SiPlaystation5 />,
-  "PlayStation 4": <SiPlaystation4 />,
-  "PlayStation 3": <SiPlaystation3 />,
-  "PS Vita": <SiPlaystationvita />,
-  "Xbox One": <IoLogoXbox />,
-  "Xbox Series S/X": <RiXboxLine />,
-  "Xbox 360": <RiXboxLine />,
-  Wii: <SiWii />,
+  "PlayStation 5": <SiPlaystation5 className="w-auto h-auto" />,
+  "PlayStation 4": <SiPlaystation4 className="w-auto h-auto" />,
+  "PlayStation 3": <SiPlaystation3 className="w-auto h-auto" />,
+  "PS Vita": <SiPlaystationvita className="w-auto h-auto" />,
+  "Xbox One": <IoLogoXbox className="w-auto h-auto" />,
+  "Xbox Series S/X": <RiXboxLine className="w-auto h-auto" />,
+  "Xbox 360": <RiXboxLine className="w-auto h-auto" />,
+  Wii: <SiWii className="w-auto h-auto" />,
   "Wii U": <SiWiiu />,
-  "Nintendo Switch": <SiNintendoswitch />,
-  "Nintendo DS": <SiNintendo3Ds />,
-  Linux: <IoLogoSteam />,
-  PC: <TiVendorMicrosoft />,
-  macOS: <IoLogoApple />,
-  iOS: <IoLogoApple />,
-  Android: <IoLogoAndroid />,
+  "Nintendo Switch": <SiNintendoswitch className="w-auto h-auto" />,
+  "Nintendo DS": <SiNintendo3Ds className="w-auto h-auto" />,
+  Linux: <IoLogoSteam className="w-auto h-auto" />,
+  PC: <TiVendorMicrosoft className="w-auto h-auto" />,
+  macOS: <IoLogoApple className="w-auto h-auto" />,
+  iOS: <IoLogoApple className="w-auto h-auto" />,
+  Android: <IoLogoAndroid className="w-auto h-auto" />,
 };
 
 export const renderPlatformIcons = (platforms?: Platform[]) => {
@@ -62,16 +62,16 @@ export const renderPlatformIcons = (platforms?: Platform[]) => {
  type StoreName = Stores["store"]["name"];
 
  const storeIconMap: Record<StoreName, React.ReactNode> = {
-   "PlayStation Store": <IoLogoPlaystation />,
-   "Epic Games": <SiEpicgames />,
-   "Xbox Store": <TiVendorMicrosoft />,
-   "Xbox 360 Store": <TiVendorMicrosoft />,
-   "Nintendo Store": <SiNintendo />,
-   Steam: <IoLogoSteam />,
-   GOG: <IoMdAppstore />,
-   "itch.io": <IoMdAppstore />,
-   "App Store": <SiAppstore />,
-   "Google Play": <IoLogoGoogleplus />,
+   "PlayStation Store": <IoLogoPlaystation className="w-auto h-auto" />,
+   "Epic Games": <SiEpicgames className="w-auto h-auto" />,
+   "Xbox Store": <TiVendorMicrosoft className="w-auto h-auto" />,
+   "Xbox 360 Store": <TiVendorMicrosoft className="w-auto h-auto" />,
+   "Nintendo Store": <SiNintendo className="w-auto h-auto" />,
+   Steam: <IoLogoSteam className="w-auto h-auto" />,
+   GOG: <IoMdAppstore className="w-auto h-auto" />,
+   "itch.io": <IoMdAppstore className="w-auto h-auto" />,
+   "App Store": <SiAppstore className="w-auto h-auto" />,
+   "Google Play": <IoLogoGoogleplus className="w-auto h-auto" />,
  };
 
  export const renderStoreIcons = (store?: Stores[]) => {

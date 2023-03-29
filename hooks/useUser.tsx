@@ -3,16 +3,18 @@ import {
   DocumentData,
   getDoc,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 
 function useUser(uid: string) {
   const [user, setUser] = useState<DocumentData>();
+  const router = useRouter()
+  const { id } = router.query
 
   async function getUser() {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
-    console.log("Document data:", docSnap.data());
     setUser(docSnap.data())
   }
 

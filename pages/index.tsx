@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/darkAtom";
 import Hero from "../components/Hero";
+
 import useAuth from "../hooks/useAuth";
 import useList from "../hooks/useList";
 import { Game } from "../typings";
@@ -25,6 +26,7 @@ const Home = ({ newGames }: Props) => {
         <title>Game Land - Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
 
       <main className="relative pt-32 lg:space-y-24  max-w-[1240px] mx-auto">
         <section className="max-w-[1240px] mx-auto flex items-center justify-center">
