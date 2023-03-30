@@ -196,7 +196,7 @@ function GameComponent({ games }: Props) {
               </button>
             </div>
             <div
-              className={`absolute  bottom-0 -z-10 group-hover:z-30  group-hover:translate-y-[-100px] h-40
+              className={`absolute  bottom-0 -z-10 group-hover:z-30   group-hover:translate-y-[-100px] overflow-scroll scrollbar-hide h-52
                transition-all duration-300 ease-in-out rounded-t-md ${
                  dark
                    ? "bg-[#141414c0] text-[#5156e5]"
