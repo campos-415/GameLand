@@ -7,16 +7,16 @@ import { doc, updateDoc } from "firebase/firestore";
 import { storage, db } from "../firebase";
 import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
-import { TailSpin } from "react-loader-spinner";
 import { useRecoilValue } from "recoil";
 import { darkState, sideBarState } from "../atoms/statesAtom";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { PhotographIcon, XIcon } from "@heroicons/react/solid";
 import { PacmanLoader } from "react-spinners";
+import { FaArrowLeft } from "react-icons/fa";
+import Link from "next/link";
 
 function Login() {
   const [loading, setLoading] = useState(false);
-  const [logOutLoading, setLogOutLoading] = useState(false);
   const dark = useRecoilValue(darkState);
   const sideBar = useRecoilValue(sideBarState);
   const router = useRouter();
@@ -24,6 +24,7 @@ function Login() {
   const User = useUser(user!?.uid);
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef<any>(null);
+  
   const {
     register,
     handleSubmit,
@@ -56,7 +57,8 @@ function Login() {
       await updateDoc(doc(db, "users", user!.uid), {
         firstName: data.firstName,
         lastName: data.lastName,
-        userImage: User?.userImage ||
+        userImage:
+          User?.userImage ||
           "https://as2.ftcdn.net/v2/jpg/02/29/75/83/1000_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
       });
       if (selectedFile) {
@@ -64,12 +66,11 @@ function Login() {
           async () => {
             const downloadURL = await getDownloadURL(imageRef);
             await updateDoc(doc(db, "users", user!?.uid), {
-              userImage:
-                downloadURL 
+              userImage: downloadURL,
             });
           }
         );
-      } 
+      }
       router.push(`/`);
     } else {
       setLoading(false);
@@ -90,8 +91,13 @@ function Login() {
           <form
             className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
             onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <h1 className="text-3xl md:text-4xl">
+            <div className="flex justify-center space-x-4 items-center text-center">
+              <div className="hover:scale-125">
+                <Link href="/">
+                  <FaArrowLeft size={25} />
+                </Link>
+              </div>
+              <h1 className="text-3xl md:text-4xl w-full">
                 Account <span className="text-[#5156e5]">Settings</span>
               </h1>
               <div className="-ml-0.5 flex items-center gap-x-1.5"></div>
@@ -171,7 +177,7 @@ function Login() {
                 type="submit">
                 {loading ? (
                   <>
-                    <PacmanLoader color="#36d7b7" />
+                    <PacmanLoader color="black" size={12} />
                   </>
                 ) : (
                   "Save"
@@ -232,10 +238,8 @@ function Login() {
               className={`w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white ${
                 loading ? "hover:bg-[#5156e5]" : ""
               } hover:text-[#5165e5] flex items-center justify-center`}
-                onClick={logOut}
-              type="button">
-              {loading ? <PacmanLoader color="black" size={12} /> : "Log Out"}
-            </button>
+              onClick={logOut}
+              type="button"></button>
           </div>
         </form>
       )}

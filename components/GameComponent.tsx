@@ -135,13 +135,15 @@ function GameComponent({ games }: Props) {
 
       {games ? (
         <div
-          className={` rounded-sm flex justify-center ml-3 group mb-8 ${
-            dark ? "bg-[#1d1c1c]" : " bg-slate-200"
+          className={` rounded-md flex justify-center ml-3 group mb-8 ${
+            dark
+              ? "bg-[#1d1c1c] shadow-slate-200 shadow-lg"
+              : " bg-slate-200 shadow-[#141414] shadow-lg"
           } items-center`}>
           <div className=" relative flex flex-col justify-center ">
             <div className="relative h-48 min-w-[300px] transition duration-200 ease-in-out ">
               <Image
-                className="rounded-t-md object-cover md:rounded group-hover:blur-sm overflow-hidden"
+                className="rounded-t-md object-cover group-hover:blur-sm overflow-hidden"
                 src={games?.background_image}
                 fill
                 alt="/"
@@ -194,15 +196,18 @@ function GameComponent({ games }: Props) {
               </button>
             </div>
             <div
-              className={`absolute  bottom-0 -z-10 group-hover:z-30  group-hover:translate-y-[-100px]
-               transition-all duration-300 ease-in-out rounded-md ${
+              className={`absolute  bottom-0 -z-10 group-hover:z-30  group-hover:translate-y-[-100px] h-40
+               transition-all duration-300 ease-in-out rounded-t-md ${
                  dark
                    ? "bg-[#141414c0] text-[#5156e5]"
                    : " bg-[rgba(226,232,240,0.54)] text-[#5156e5] "
                }  w-full px-2  `}>
               <p className="text-sm flex items-center justify-between border-b pt-4 border-gray-600 mb-3">
                 Released Date:{" "}
-                <span className={`px-1 text-xs ${dark ? "text-white" : "text-black"}`}>
+                <span
+                  className={`px-1 text-xs ${
+                    dark ? "text-white" : "text-black"
+                  }`}>
                   {games?.released}
                 </span>
               </p>

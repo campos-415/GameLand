@@ -52,7 +52,23 @@ export const renderPlatformIcons = (platforms?: Platform[]) => {
 
   return platforms?.map((plat: Platform) => {
     const icon = platformIconMap[plat?.platform?.name];
-    return icon ? icon : null;
+    return icon ?? icon
+  });
+};
+export const renderPlatformIconsAndNames = (platforms?: Platform[]) => {
+  if (!platforms) {
+    return null;
+  }
+
+  return platforms?.map((plat: Platform) => {
+    const icon = platformIconMap[plat?.platform?.name];
+    const name = plat?.platform?.name;
+    return (
+      <button key={name} className="bannerButton hover:scale-110  bg-[gray]/70">
+        <span>{icon}</span>
+        {name}
+      </button>
+    );
   });
 };
 
@@ -81,6 +97,14 @@ export const renderPlatformIcons = (platforms?: Platform[]) => {
 
    return store?.map((store: Stores) => {
      const icon = storeIconMap[store?.store?.name];
-     return icon ? icon : null;
+     const name = store?.store?.name;
+     return (
+       <button
+         key={name}
+         className="bannerButton hover:scale-110 bg-[gray]/70">
+         <span>{icon}</span>
+         {name}
+       </button>
+     );
    });
  };

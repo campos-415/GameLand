@@ -7,8 +7,8 @@ import { FaGamepad, FaShoppingBag } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import { useRecoilState } from "recoil";
 import { darkState } from "../atoms/statesAtom";
-import { Data, Game, Movie } from "../typings";
-import { renderPlatformIcons, renderStoreIcons } from "../constants/gameConst";
+import { Data, Game, Movie, Platform, Stores } from "../typings";
+import { renderPlatformIcons, renderPlatformIconsAndNames, renderStoreIcons } from "../constants/gameConst";
 import {
   collection,
   deleteDoc,
@@ -25,6 +25,7 @@ import esrb_t from "../public/assets/ratings/esrb-t.svg";
 import esrb_e from "../public/assets/ratings/esrb-e.svg";
 import esrb_a from "../public/assets/ratings/esrb-a.svg";
 import esrb_10 from "../public/assets/ratings/esrb-10.svg";
+import { platform } from "os";
 
 const esrbImages: { [key: string]: string } = {
   Teen: esrb_t,
@@ -156,6 +157,7 @@ function Game() {
   useEffect(() => {
     fetchGame();
   }, [id]);
+
   return (
     <>
       <Head>
@@ -175,98 +177,6 @@ function Game() {
             alt="bannerImg"
             fill
           />
-        </div>
-        <div className="relative">
-          <div className="relative flex flex-col items-center justify-start">
-            <div className={` flex items-center justify-end md:pr-24`}>
-              {game?.esrb_rating?.name && (
-                <>
-                  <Image
-                    src={esrbImages[game?.esrb_rating?.name]}
-                    width={30}
-                    height={30}
-                    alt="rating"
-                    className="w-[40px] h-[40px]"
-                  />
-                </>
-              )}
-              <p
-                className={`px-1 border text-2xl flex items-center ${getMetacriticClassName(
-                  games?.metacritic
-                )}`}>
-                {games?.metacritic ?? "N/A"}
-              </p>
-            </div>
-            <div className={` flex items-center justify-start`}>
-              <h1
-                className={`${
-                  !dark ? "text-black" : " "
-                } text-2xl md:text-4xl lg:text-7xl `}>
-                {games?.name}
-              </h1>
-            </div>
-            <div
-              className={` max-w-[1240px] md:w-[600px] h-[300px] mt-2 pt-32 space-x-4 items-center flex justify-start ${
-                showMore ? "overflow-scroll " : "hidden"
-              }`}>
-              <p className={`${!dark ? "text-black" : " "} pt-16`}>
-                {games?.description_raw}
-              </p>
-            </div>
-          </div>
-          <div className="py-4 flex items-center justify-center">
-            {!showMore ? (
-              <button
-                onClick={() => {
-                  setShowMore(true);
-                }}
-                className="bannerButton bg-[gray]/70">
-                Show Description{" "}
-                <InformationCircleIcon className="h-4 w-4 text-black md:h-7 md:w-7" />
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  setShowMore(false);
-                }}
-                className="bannerButton bg-[gray]/70">
-                Hide Description{" "}
-                <InformationCircleIcon className="h-4 w-4 text-black md:h-7 md:w-7" />
-              </button>
-            )}
-          </div>
-
-          <div className="flex space-x-3  items-center justify-center md:px-12 mt-4">
-            <div className="relative">
-              <button
-                className="bannerButton bg-white text-black"
-                onClick={() => setShowStore(!showStore)}>
-                {" "}
-                <FaShoppingBag className="h-4 w-4 text-black md:h-7 md:w-7" />{" "}
-                Buy
-              </button>
-              <div className={`absolute ${showStore ? "" : "hidden"} py-2`}>
-                <div className=" flex text-lg justify-center space-x-1 hover:cursor-pointer">
-                  {renderStoreIcons(games?.stores)}
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <button
-                className="bannerButton bg-white text-black"
-                onClick={() => setShowPlatforms(!showPlatforms)}>
-                {" "}
-                <FaGamepad className="h-4 w-4 text-black md:h-7 md:w-7" />{" "}
-                Platforms
-              </button>
-              <div
-                className={`absolute ${showPlatforms ? "" : "hidden"} py-2 `}>
-                <div className=" flex text-lg justify-center space-x-1 hover:cursor-pointer">
-                  {renderPlatformIcons(games?.platforms)}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </>
