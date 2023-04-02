@@ -23,8 +23,10 @@ import {
   IoLogoGoogleplus,
 } from "react-icons/io";
 import { Platform, Stores } from "../typings";
+import Link from "next/link";
+import { platform } from "os";
 
- type PlatformName = Platform["platform"]["name"];
+type PlatformName = Platform["platform"]["name"];
 
 const platformIconMap: Record<PlatformName, React.ReactNode> = {
   "PlayStation 5": <SiPlaystation5 className="w-auto h-auto" />,
@@ -52,7 +54,7 @@ export const renderPlatformIcons = (platforms?: Platform[]) => {
 
   return platforms?.map((plat: Platform) => {
     const icon = platformIconMap[plat?.platform?.name];
-    return icon ?? icon
+    return icon ?? icon;
   });
 };
 export const renderPlatformIconsAndNames = (platforms?: Platform[]) => {
@@ -64,7 +66,9 @@ export const renderPlatformIconsAndNames = (platforms?: Platform[]) => {
     const icon = platformIconMap[plat?.platform?.name];
     const name = plat?.platform?.name;
     return (
-      <button key={name} className="bannerButton hover:scale-110  bg-[gray]/70">
+      <button
+        key={name}
+        className="flex items-center gap-x-2 rounded-lg px-2 py-2 text-sm font-semibold transition hover:opacity-60 md:py-1.5 md:px-4 md:text-lg hover:scale-110 bg-black/70 ml-2">
         <span>{icon}</span>
         {name}
       </button>
@@ -72,39 +76,36 @@ export const renderPlatformIconsAndNames = (platforms?: Platform[]) => {
   });
 };
 
+type StoreName = Stores["store"]["name"];
 
+const storeIconMap: Record<StoreName, React.ReactNode> = {
+  "PlayStation Store": <IoLogoPlaystation className="w-auto h-auto" />,
+  "Epic Games": <SiEpicgames className="w-auto h-auto" />,
+  "Xbox Store": <TiVendorMicrosoft className="w-auto h-auto" />,
+  "Xbox 360 Store": <TiVendorMicrosoft className="w-auto h-auto" />,
+  "Nintendo Store": <SiNintendo className="w-auto h-auto" />,
+  Steam: <IoLogoSteam className="w-auto h-auto" />,
+  GOG: <IoMdAppstore className="w-auto h-auto" />,
+  "itch.io": <IoMdAppstore className="w-auto h-auto" />,
+  "App Store": <SiAppstore className="w-auto h-auto" />,
+  "Google Play": <IoLogoGoogleplus className="w-auto h-auto" />,
+};
 
+export const renderStoreIcons = (store?: Stores[]) => {
+  if (!store) {
+    return null;
+  }
 
- type StoreName = Stores["store"]["name"];
-
- const storeIconMap: Record<StoreName, React.ReactNode> = {
-   "PlayStation Store": <IoLogoPlaystation className="w-auto h-auto" />,
-   "Epic Games": <SiEpicgames className="w-auto h-auto" />,
-   "Xbox Store": <TiVendorMicrosoft className="w-auto h-auto" />,
-   "Xbox 360 Store": <TiVendorMicrosoft className="w-auto h-auto" />,
-   "Nintendo Store": <SiNintendo className="w-auto h-auto" />,
-   Steam: <IoLogoSteam className="w-auto h-auto" />,
-   GOG: <IoMdAppstore className="w-auto h-auto" />,
-   "itch.io": <IoMdAppstore className="w-auto h-auto" />,
-   "App Store": <SiAppstore className="w-auto h-auto" />,
-   "Google Play": <IoLogoGoogleplus className="w-auto h-auto" />,
- };
-
- export const renderStoreIcons = (store?: Stores[]) => {
-   if (!store) {
-     return null;
-   }
-
-   return store?.map((store: Stores) => {
-     const icon = storeIconMap[store?.store?.name];
-     const name = store?.store?.name;
-     return (
-       <button
-         key={name}
-         className="bannerButton hover:scale-110 bg-[gray]/70">
-         <span>{icon}</span>
-         {name}
-       </button>
-     );
-   });
- };
+  return store?.map((store: Stores) => {
+    const icon = storeIconMap[store?.store?.name];
+    const name = store?.store?.name;
+    return (
+      <button
+        key={name}
+        className="flex items-center gap-x-2 rounded-lg px-2 py-2 text-sm font-semibold transition hover:opacity-60 md:py-1.5 md:px-4 md:text-lg hover:scale-110 bg-black/70 ml-2">
+        <span>{icon}</span>
+        {name}
+      </button>
+    );
+  });
+};

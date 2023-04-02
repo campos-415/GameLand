@@ -7,8 +7,8 @@ export interface Game {
   genres: []
   id: number
   metacritic: number
-  rating: number
-  released: string
+  ratings:  []
+  released: string 
   review_count: number
   score: number
   stores: []
@@ -26,7 +26,7 @@ export interface Game {
   platforms: []
   results: []
   esrb_rating: esrbRating
-
+  playtime: number
 }
 
 export interface User {
@@ -116,4 +116,11 @@ export interface Video {
   currentTime: number;
   addEventListener: EventListenerObject;
   removeEventListener: EventListenerObject;
+}
+
+export interface Ratings {
+  id: number
+  title: string
+  count: number
+  percent: number
 }

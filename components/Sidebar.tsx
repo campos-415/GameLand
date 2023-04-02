@@ -41,11 +41,6 @@ function Sidebar() {
                 </h1>
               </div>
             </Link>
-            <div
-              className=" rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer hover:scale-125"
-              onClick={handleNav}>
-              <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
-            </div>
           </div>
           <div className="border-b flex justify-end border-gray-300 my-4 space-x-3 py-2">
             <div className="flex justify-center items-center space-y-2">
@@ -64,9 +59,14 @@ function Sidebar() {
                 />
               )}
             </div>
+            <div
+              className=" rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer hover:scale-125"
+              onClick={handleNav}>
+              <AiOutlineClose className={`${dark ? "" : "text-black"}`} />
+            </div>
           </div>
         </div>
-        <div className="pb-4 pt-12 px-10 flex flex-col ">
+        <div className="pb-4 pt-12  sm:px-8 flex flex-col ">
           <ul className="uppercase text-left w-auto ">
             <Link href="/" onClick={handleNav}>
               <li

@@ -24,7 +24,7 @@
     @apply cursor-pointer text-lg font-light text-[#e5e5e5] transition duration-[4ms] hover:text-[#b3b3b3];
   }
 
-  .bannerButton {
+  .platform__buttons {
     @apply flex items-center gap-x-2 rounded-lg px-2 py-2 text-sm font-semibold transition hover:opacity-60 md:py-1.5 md:px-4 md:text-lg
   }
 

@@ -37,26 +37,22 @@ const toastStyle = {
   borderRadius: "9999px",
   maxWidth: "1000px",
 };
-const getMetacriticClassName = (metacritic?: number | string) => {
+const getMetacriticClassName = (metacritic?: number ) => {
   if (metacritic === undefined) {
-    return "text-blue-500 border-blue-500";
+    return "text-blue-500 bg-blue-500/20 border-blue-500";
   }
 
   if (metacritic <= 64) {
-    return "text-red-500 border-red-500";
+    return "text-red-500 bg-red-500/20 border-red-500";
   }
 
   if (metacritic >= 65 && metacritic <= 84) {
-    return "text-yellow-500 border-yellow-500";
+    return "text-yellow-500 bg-yellow-500/20 border-yellow-500";
   }
 
   if (metacritic >= 75) {
-    return "text-green-500 border-green-500";
+    return "text-green-500 bg-green-500/20 border-green-500";
   }
-  if (metacritic === "N/A") {
-    return "text-blue-500 border-blue-500";
-  }
-
   return "";
 };
 
@@ -140,8 +136,8 @@ function GameComponent({ games }: Props) {
               ? "bg-[#1d1c1c] shadow-slate-200 shadow-lg"
               : " bg-slate-200 shadow-[#141414] shadow-lg"
           } items-center`}>
-          <div className=" relative flex flex-col justify-center ">
-            <div className="relative h-48 min-w-[300px] transition duration-200 ease-in-out ">
+          <div className=" relative flex flex-col justify-center rounded-md ">
+            <div className="relative h-48 min-w-[300px] rounded-md transition duration-200 ease-in-out ">
               <Image
                 className="rounded-t-md object-cover group-hover:blur-sm overflow-hidden"
                 src={games?.background_image}
@@ -152,13 +148,20 @@ function GameComponent({ games }: Props) {
               />
             </div>
             <div
-              className={`flex justify-between pt-6 mx-2 ${
+              className={`flex justify-between pt-6 mx-2 rounded-md ${
                 !dark ? "text-black" : ""
               }`}>
               <div className="flex text-lg justify-start space-x-1 ">
                 {renderPlatformIcons(games?.platforms)}
               </div>
               <div className="flex space-x-2  ">
+                <button onClick={handleList}>
+                  {addedToList ? (
+                    <CheckCircleIcon width={30} height={30} />
+                  ) : (
+                    <PlusCircleIcon width={30} height={30} />
+                  )}
+                </button>
                 <div className="w-full h-auto">
                   {games?.esrb_rating?.name && (
                     <Image
@@ -187,16 +190,9 @@ function GameComponent({ games }: Props) {
                   {games?.name}
                 </h1>
               </Link>
-              <button onClick={handleList}>
-                {addedToList ? (
-                  <CheckCircleIcon width={30} height={30} />
-                ) : (
-                  <PlusCircleIcon width={30} height={30} />
-                )}
-              </button>
             </div>
             <div
-              className={`absolute  bottom-0 -z-10 group-hover:z-30   group-hover:translate-y-[-100px] overflow-scroll scrollbar-hide h-52
+              className={`absolute  bottom-0 -z-10 group-hover:z-30   group-hover:translate-y-[-100px] overflow-scroll scrollbar-hide h-[204px]
                transition-all duration-300 ease-in-out rounded-t-md ${
                  dark
                    ? "bg-[#141414c0] text-[#5156e5]"
