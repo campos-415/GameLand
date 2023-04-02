@@ -6,6 +6,7 @@ import Hero from "../components/Hero";
 import useAuth from "../hooks/useAuth";
 import useList from "../hooks/useList";
 import { Game } from "../typings";
+import WelcomePage from "../components/WelcomePage";
 
 interface Props {
   newGames: Game[] | null | DocumentData[];
@@ -27,8 +28,11 @@ const Home = ({ newGames, classicGames }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pt-32 lg:space-y-24  max-w-[1240px] mx-auto">
-        <section className="max-w-[1240px] mx-auto flex items-center justify-center">
+      <main className="relative md:pt-24 lg:space-y-24  max-w-[1240px] mx-auto">
+        <section className="max-w-[1240px] mx-auto flex items-center md:items-start justify-center h-screen">
+          <WelcomePage />
+        </section>
+        <section id="newRelease" className="max-w-[1240px] mx-auto flex items-center justify-center">
           <Hero item={newGames} title="New Release" />
         </section>
         <section className="md:space-y-24 ">

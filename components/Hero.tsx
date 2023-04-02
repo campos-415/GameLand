@@ -16,9 +16,9 @@ function Hero({ item, title }: Props) {
 
   return (
     <>
-      <div className={`flex flex-col items-center justify-between`}>
+      <div className={`flex flex-col items-center justify-between pt-24`}>
         <div className="mb-12 ">
-          <h1 className={`text-2xl md:text-3xl lg:text-6xl pt-6 capitalize ${!dark ? "text-black" : " "}`}>{title}</h1>
+          <h1 className={`text-4xl md:text-5xl lg:text-6xl pt-6 capitalize ${!dark ? "text-black" : " "}`}>{title}</h1>
         </div>
 
         <div className="mx-auto flex flex-wrap rounded-md items-center space-x-4 justify-center max-w-[1240px]">

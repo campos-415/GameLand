@@ -40,6 +40,9 @@ import esrb_10 from "../public/assets/ratings/esrb-10.svg";
 import { CheckCircleIcon, PlusCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 
+
+
+
 const esrbImages: { [key: string]: string } = {
   Teen: esrb_t,
   Mature: esrb_m,
@@ -122,7 +125,7 @@ function Game() {
       setAddedToList(false);
 
       toast(`${games?.name} has been removed from My List ❌`, {
-        duration: 8000,
+        duration: 4000,
         style: toastStyle,
       });
     } else {
@@ -133,7 +136,7 @@ function Game() {
       setAddedToList(true);
 
       toast(`${games?.name} has been added to My List ✅`, {
-        duration: 8000,
+        duration: 4000,
         style: toastStyle,
       });
     }

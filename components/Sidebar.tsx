@@ -3,20 +3,31 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { darkState, sideBarState } from "../atoms/statesAtom";
 import { AiOutlineClose } from "react-icons/ai";
-import { MoonIcon } from "@heroicons/react/solid";
+import { LogoutIcon, MoonIcon } from "@heroicons/react/solid";
 import { HiClipboardList, HiOutlineLightBulb } from "react-icons/hi";
 import { FaCode, FaGamepad, FaGhost, FaHome, FaSlackHash, FaStore } from "react-icons/fa";
 import { IoMdAlbums, IoMdPeople } from "react-icons/io";
 import { MdManageAccounts } from 'react-icons/md'
+import { signOut } from "firebase/auth";
+import { RiLogoutCircleLine } from "react-icons/ri";
+import useAuth from "../hooks/useAuth";
 function Sidebar() {
   const [dark, setDark] = useRecoilState(darkState);
   const [sideBar, setSideBar] = useRecoilState<boolean>(sideBarState);
   const router = useRouter();
   const id = router.asPath;
+  const { logOut } = useAuth();
+
+  const handleLogOut = () => {
+    logOut()
+    setSideBar(!sideBar)
+  }
 
   function handleNav() {
     setSideBar(!sideBar);
+
   }
+
   return (
     <div
       className={sideBar ? `w-full h-[120vh] -translate-y-4  bg-black/70` : ""}>
@@ -218,6 +229,20 @@ function Sidebar() {
                 <p>account</p>
               </li>
             </Link>
+            <li
+              onClick={handleLogOut}
+              className={
+                dark
+                  ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
+                      id === "/user" ? "text-[#5156e5]" : "text-white"
+                    }`
+                  : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
+                      id === "/user" ? "text-[#5156e5]" : "text-black"
+                    }`
+              }>
+              <RiLogoutCircleLine />
+              <p>Log Out</p>
+            </li>
           </ul>
           <div className="pt-20"></div>
         </div>

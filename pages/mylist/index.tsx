@@ -15,7 +15,7 @@ const MyList = () => {
 
   return (
     <div
-      className={` h-screen ${dark ? " bg-[#141414]" : "bg-white"} ${
+      className={` h-full ${dark ? " bg-[#141414]" : "bg-white"} ${
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
@@ -23,7 +23,7 @@ const MyList = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="relative pt-32 lg:space-y-24 max-w-[1240px] mx-auto ">
+      <main className="relative lg:space-y-24 max-w-[1240px] mx-auto ">
         <section>
           {list?.length > 0 ?  (<Hero item={list} title="My List" />):(<EmptyPage text="please add games to your list" /> )}
         </section>

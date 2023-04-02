@@ -106,7 +106,7 @@ function GameComponent({ games }: Props) {
       setAddedToList(false);
 
       toast(`${game?.name} has been removed from My List ❌`, {
-        duration: 8000,
+        duration: 6000,
         style: toastStyle,
       });
     } else {
@@ -117,7 +117,7 @@ function GameComponent({ games }: Props) {
       setAddedToList(true);
 
       toast(`${game?.name} has been added to My List ✅`, {
-        duration: 8000,
+        duration: 6000,
         style: toastStyle,
       });
     }
@@ -126,7 +126,7 @@ function GameComponent({ games }: Props) {
   return (
     <>
       <Link href={`/mylist`}>
-        <Toaster position="bottom-center" />
+        <Toaster position="top-center" />
       </Link>
 
       {games ? (
@@ -137,7 +137,7 @@ function GameComponent({ games }: Props) {
               : " bg-slate-200 shadow-[#141414] shadow-lg"
           } items-center`}>
           <div className=" relative flex flex-col justify-center rounded-md ">
-            <div className="relative h-48 min-w-[300px] rounded-md transition duration-200 ease-in-out ">
+            <div className="relative h-40 min-w-[300px] rounded-md transition duration-200 ease-in-out ">
               <Image
                 className="rounded-t-md object-cover group-hover:blur-sm overflow-hidden"
                 src={games?.background_image}
@@ -192,7 +192,7 @@ function GameComponent({ games }: Props) {
               </Link>
             </div>
             <div
-              className={`absolute  bottom-0 -z-10 group-hover:z-30   group-hover:translate-y-[-100px] overflow-scroll scrollbar-hide h-[204px]
+              className={`absolute  bottom-0 -z-10 group-hover:z-30   group-hover:translate-y-[-100px] overflow-scroll scrollbar-hide h-[175px]
                transition-all duration-300 ease-in-out rounded-t-md ${
                  dark
                    ? "bg-[#141414c0] text-[#5156e5]"

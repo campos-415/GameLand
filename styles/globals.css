@@ -8,6 +8,11 @@
 
 
 @layer base {
+
+  html {
+    @apply scroll-smooth
+  }
+
   body {
     @apply  bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-[#5156e5] !scrollbar-corner-[#141414];
   }
