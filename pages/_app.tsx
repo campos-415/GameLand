@@ -13,7 +13,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Navbar />
         <Sidebar />
         </header>
-        
       <Component {...pageProps} />
       </AuthProvider>
         

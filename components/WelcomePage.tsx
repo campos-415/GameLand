@@ -24,8 +24,8 @@ function WelcomePage() {
             </h2>
           </div>
 
-          <div className= {`p-8 bg-[#1d1c1c] rounded-md ${dark ? "bg-[#1d1c1c]" : "bg-slate-200"}`}>
-            <div className="relative rounded-md ">
+          <div className= {` bg-[#1d1c1c] rounded-md ${dark ? "bg-[#1d1c1c]" : "bg-slate-200"}`}>
+            <div className="relative  rounded-md flex items-center justify-center">
               <figure className="image-container">
                 <Image
                   src={bgImage2}

@@ -17,11 +17,6 @@ import {
   Stores,
 } from "../typings";
 import {
-  renderPlatformIcons,
-  renderPlatformIconsAndNames,
-  renderStoreIcons,
-} from "../constants/gameConst";
-import {
   collection,
   deleteDoc,
   doc,
@@ -39,9 +34,7 @@ import esrb_a from "../public/assets/ratings/esrb-a.svg";
 import esrb_10 from "../public/assets/ratings/esrb-10.svg";
 import { CheckCircleIcon, PlusCircleIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-
-
-
+import { renderPlatformIcons, renderPlatformIconsAndNames, renderStoreIcons } from "../constants/gameConst";
 
 const esrbImages: { [key: string]: string } = {
   Teen: esrb_t,
@@ -62,26 +55,6 @@ const toastStyle = {
   maxWidth: "1000px",
 };
 
-const getMetacriticClassName = (metacritic?: number) => {
-  if (metacritic === undefined) {
-    return "text-blue-500 border-blue-500";
-  }
-
-  if (metacritic <= 64) {
-    return "text-red-500 border-red-500";
-  }
-
-  if (metacritic >= 65 && metacritic <= 84) {
-    return "text-yellow-500 border-yellow-500";
-  }
-
-  if (metacritic >= 75) {
-    return "text-green-500 border-green-500";
-  }
-
-  return "";
-};
-
 function Game() {
   const dark = useRecoilValue(darkState);
   const router = useRouter();
@@ -89,8 +62,6 @@ function Game() {
   const [movie, setMovie] = useState<Movie>();
   const [games, setGames] = useState<Game>();
   const [loading, setLoading] = useState(false);
-  const [playing, setPlaying] = useState(false);
-
   const [gameList, setGameList] = useState<DocumentData[] | any | Game>();
   const [gameListId, setGameListId] = useState<DocumentData[] | string[]>();
   const [addedToList, setAddedToList] = useState(false);
@@ -141,6 +112,7 @@ function Game() {
       });
     }
   };
+
 
   async function fetchGame() {
     setLoading(true);
@@ -220,24 +192,23 @@ function Game() {
           </div>
           <div className="pb-12">
             <button
-            className={`${
-              dark ? "text-black  bg-slate-200" : "bg-[#141414]"
-            } py-4 flex items-center justify-between px-12  space-x-1 rounded-md  `}
-            onClick={handleList}>
-            {!addedToList ? (
-              <>
-                <p>Add to my List</p>
-                <PlusCircleIcon width={30} height={30} />
-              </>
-            ) : (
-              <>
-                <p> Remove from my List</p>
-                <CheckCircleIcon width={30} height={30} />
-              </>
-            )}
-          </button>
+              className={`${
+                dark ? "text-black  bg-slate-200" : "bg-[#141414]"
+              } py-4 flex items-center justify-between px-12  space-x-1 rounded-md  `}
+              onClick={handleList}>
+              {!addedToList ? (
+                <>
+                  <p>Add to my List</p>
+                  <PlusCircleIcon width={30} height={30} />
+                </>
+              ) : (
+                <>
+                  <p> Remove from my List</p>
+                  <CheckCircleIcon width={30} height={30} />
+                </>
+              )}
+            </button>
           </div>
-          
         </div>
       </div>
       <div
@@ -254,7 +225,7 @@ function Game() {
               fill
             />
           </div>
-          <div className="flex items-start justify-center pb-12 mt-8 space-x-2 md:space-x-8">
+          <div className="flex items-start justify-center pb-12 mt-8 space-x-2 md:space-x-8 max-w-[1240px]">
             <div
               className={`max-w-[1240px] flex flex-col items-center justify-center `}>
               <h2
@@ -263,7 +234,7 @@ function Game() {
                 }  text-lg md:text-4xl pb-4`}>
                 Where to Play?
               </h2>
-              <div className="space-y-2 flex flex-wrap items-end justify-start flex-col">
+              <div className="space-y-2 flex flex-wrap items-end justify-start ">
                 {renderPlatformIconsAndNames(games?.platforms)}
               </div>
             </div>
@@ -275,7 +246,7 @@ function Game() {
                 }  text-lg md:text-4xl pb-4`}>
                 Stores Available
               </h2>
-              <div className="space-y-2 flex flex-wrap items-start justify-start flex-col">
+              <div className="space-y-2 flex flex-wrap items-start justify-start ">
                 {renderStoreIcons(games?.stores)}
               </div>
             </div>
@@ -288,12 +259,47 @@ function Game() {
               } text-2xl md:text-4xl pb-4`}>
               About {games?.name}
             </h2>
-            <p className={`${dark ? "" : "text-black"} h-60 overflow-scroll md:h-40 scrollbar-hide`}>
+            <p
+              className={`${
+                dark ? "" : "text-black"
+              } h-60 overflow-scroll md:h-40 scrollbar-hide`}>
               {games?.description_raw}
             </p>
           </div>
         </div>
       </div>
+          <div className={`${dark ? "bg-[#141414]" : "bg-white"}  flex items-center justify-center gap-x-1 pb-8 pt-4`}>
+            <div
+              className={` bg-[#1d1c1c] rounded-md ${
+                dark ? "bg-[#1d1c1c]" : "bg-slate-200"
+              }`}>
+              <div className="relative  rounded-md flex items-center justify-center">
+                <figure className="image-container2">
+                  <Image
+                    src={games?.background_image}
+                    alt="Welcome Page Image"
+                    className="image2"
+                    fill
+                  />
+                </figure>
+              </div>
+            </div>
+            <div
+              className={` bg-[#1d1c1c] rounded-md ${
+                dark ? "bg-[#1d1c1c]" : "bg-slate-200"
+              }`}>
+              <div className="relative  rounded-md flex items-center justify-center">
+                <figure className="image-container2">
+                  <Image
+                    src={games?.background_image_additional}
+                    alt="Welcome Page Image"
+                    className="image2"
+                    fill
+                  />
+                </figure>
+              </div>
+            </div>
+          </div>
     </>
   );
 }

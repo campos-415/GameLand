@@ -199,7 +199,7 @@ function Login() {
         <form
           className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
           onSubmit={handleSubmit(onSubmit)}>
-          <h1 className="text-4xl font-semibold">Create User</h1>
+          <h2 className="text-4xl font-semibold">Create User</h2>
           <div className="space-y-4">
             <label className="inline-block w-full">
               <input
