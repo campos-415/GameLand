@@ -281,14 +281,14 @@ function Game() {
             </div>
           </div>
 
-          <div className="max-w-[1000px] flex flex-col items-center justify-center overflow-scroll px-4 pb-4  ">
+          <div className="max-w-[1000px] flex flex-col items-center justify-center px-4 pb-4  ">
             <h2
               className={`${
                 dark ? "" : "text-black"
               } text-2xl md:text-4xl pb-4`}>
               About {games?.name}
             </h2>
-            <p className={`${dark ? "" : "text-black"} h-60 overflow-scroll md:h-40`}>
+            <p className={`${dark ? "" : "text-black"} h-60 overflow-scroll md:h-40 scrollbar-hide`}>
               {games?.description_raw}
             </p>
           </div>

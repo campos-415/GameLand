@@ -24,7 +24,7 @@ function WelcomePage() {
           </div>
 
           <div className= {`p-8 bg-[#1d1c1c] rounded-md ${dark ? "bg-[#1d1c1c]" : "bg-slate-200"}`}>
-            <div className="relative h-[300px] md:w-[1000px] rounded-md ">
+            <div className="relative h-[500px] md:w-[1000px] rounded-md ">
               <Image
                 src={bgImage}
                 alt="Welcome Page Image"
