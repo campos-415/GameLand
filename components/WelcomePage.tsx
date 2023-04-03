@@ -1,5 +1,6 @@
 import React from "react";
-import bgImage from "../public/assets/bgImage.jpeg";
+import bgImage from "../public/assets/undrawVR.svg";
+import bgImage2 from "../public/assets/undrawController.svg";
 import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { darkState } from "../atoms/statesAtom";
@@ -24,13 +25,17 @@ function WelcomePage() {
           </div>
 
           <div className= {`p-8 bg-[#1d1c1c] rounded-md ${dark ? "bg-[#1d1c1c]" : "bg-slate-200"}`}>
-            <div className="relative h-[500px] md:w-[1000px] rounded-md ">
-              <Image
-                src={bgImage}
+            <div className="relative rounded-md ">
+              <figure className="image-container">
+                <Image
+                  src={bgImage2}
+                  
                 alt="Welcome Page Image"
-                className="object-cover rounded-md"
+                className="image"
                 fill
               />
+              </figure>
+              
             </div>
           </div>
         </div>
