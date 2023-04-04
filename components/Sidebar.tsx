@@ -234,10 +234,10 @@ function Sidebar() {
               className={
                 dark
                   ? `ml-10 flex items-center space-x-3 cursor-pointer text-md md:text-xl py-2 uppercase hover:border-b border-b-[#5156e5] ${
-                      id === "/user" ? "text-[#5156e5]" : "text-white"
+                      id === "/login" ? "text-[#5156e5]" : "text-white"
                     }`
                   : `ml-10 flex items-center space-x-3 text-md md:text-xl py-2 uppercase cursor-pointer hover:border-b border-b-[#5156e5] ${
-                      id === "/user" ? "text-[#5156e5]" : "text-black"
+                      id === "/login" ? "text-[#5156e5]" : "text-black"
                     }`
               }>
               <RiLogoutCircleLine />

@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
 import { User } from "../typings";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { storage, db } from "../firebase";
 import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
@@ -14,6 +14,8 @@ import { PhotographIcon, XIcon } from "@heroicons/react/solid";
 import { PacmanLoader } from "react-spinners";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
+import userImg from "../public/assets/user.jpeg";
+import Image from "next/image";
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ function Login() {
   const User = useUser(user!?.uid);
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef<any>(null);
-  
+
   const {
     register,
     handleSubmit,
@@ -54,23 +56,42 @@ function Login() {
 
     handleLoading(data);
     if (data) {
-      await updateDoc(doc(db, "users", user!.uid), {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        userImage:
-          User?.userImage ||
-          "https://as2.ftcdn.net/v2/jpg/02/29/75/83/1000_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
-      });
-      if (selectedFile) {
-        await uploadString(imageRef, selectedFile, "data_url").then(
-          async () => {
-            const downloadURL = await getDownloadURL(imageRef);
-            await updateDoc(doc(db, "users", user!?.uid), {
-              userImage: downloadURL,
-            });
-          }
-        );
+      if (User) {
+        await updateDoc(doc(db, "users", user!.uid), {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          userImage:
+            User?.userImage ||
+            "https://as2.ftcdn.net/v2/jpg/02/29/75/83/1000_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
+        });
+        if (selectedFile) {
+          await uploadString(imageRef, selectedFile, "data_url").then(
+            async () => {
+              const downloadURL = await getDownloadURL(imageRef);
+              await updateDoc(doc(db, "users", user!?.uid), {
+                userImage: downloadURL,
+              });
+            }
+          );
+        }
+      } else {
+        await setDoc(doc(db, "users", user!.uid), {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          userImage:"",
+        });
+        if (selectedFile) {
+          await uploadString(imageRef, selectedFile, "data_url").then(
+            async () => {
+              const downloadURL = await getDownloadURL(imageRef);
+              await updateDoc(doc(db, "users", user!?.uid), {
+                userImage: downloadURL,
+              });
+            }
+          );
+        }
       }
+
       router.push(`/`);
     } else {
       setLoading(false);
@@ -152,6 +173,7 @@ function Login() {
               <label className="inline-block w-full">
                 <input
                   type="text"
+                  value={User?.firstName}
                   placeholder={User?.firstName}
                   className={`input ${
                     errors.firstName && "border-b-2 border-red-500"
@@ -162,8 +184,9 @@ function Login() {
               <label className="inline-block w-full">
                 <input
                   type="text"
+                placeholder={User?.lastName}
                   {...register("lastName")}
-                  placeholder={User?.lastName}
+                  value={User?.lastName}
                   className={`input ${
                     errors.lastName && "border-b-2 border-red-500"
                   }`}
@@ -197,10 +220,54 @@ function Login() {
         </>
       ) : (
         <form
-          className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
+          className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14 flex flex-col justify-center"
           onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="text-4xl font-semibold">Create User</h2>
-          <div className="space-y-4">
+          <h2 className="text-4xl font-semibold text-center">Create User</h2>
+          <div className="relative flex items-center justify-center flex-col">
+            <Image
+              src={!User && userImg}
+              alt="userImg"
+              className="rounded-2xl w-40 object-cover"
+            />
+            <div>
+              {selectedFile && (
+                <div className="relative">
+                  <div
+                    className="absolute  -top-36 left-44 w-8 h-8 bg-[#15181c] hover:bg-[#272c26] 
+                      bg-opacity-75 rounded-full flex items-center justify-center z-40
+                      cursor-pointer"
+                    onClick={() => setSelectedFile(null)}>
+                    <XIcon className="text-white h-5" />
+                  </div>
+                  <img
+                    src={selectedFile}
+                    alt="userImg"
+                    className="absolute -top-36 left-44 rounded-2xl max-h-32 md:max-h-40 object-contain"
+                  />
+                </div>
+              )}
+              <div className="flex items-center justify-between pt-2.5">
+                <div className="flex items-center">
+                  <div
+                    className="icon flex space-x-1"
+                    onClick={() => filePickerRef.current!.click()!}>
+                    <PhotographIcon className="text-[#5156e5] h-[22px]" />
+                    <label className={`${!dark ? "text-white" : "text-white"}`}>
+                      {" "}
+                      Select Profile Picture
+                      <input
+                        type="file"
+                        ref={filePickerRef}
+                        hidden
+                        onChange={addImageToPost}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4 flex items-center justify-center flex-col">
             <label className="inline-block w-full">
               <input
                 type="text"
@@ -239,7 +306,9 @@ function Login() {
                 loading ? "hover:bg-[#5156e5]" : ""
               } hover:text-[#5165e5] flex items-center justify-center`}
               onClick={logOut}
-              type="button"></button>
+              type="button">
+              Log Out
+            </button>
           </div>
         </form>
       )}

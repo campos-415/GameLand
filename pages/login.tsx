@@ -14,9 +14,9 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState(false);
-  const { signIn, signUp } = useAuth();
-  const [loading, setLoading] = useState(false)
-
+  const { signIn, signUp, error, loading } = useAuth();
+  // const [loading, setLoading] = useState(false);
+  // console.log(error)
   const {
     register,
     handleSubmit,
@@ -24,12 +24,15 @@ function Login() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (error) {
+      // setLoading(false);
+    }
 
     if (login) {
-      setLoading(true)
+      // setLoading(true);
       await signIn(data.email, data.password);
     } else {
-      setLoading(true)
+      // setLoading(true);
       await signUp(data.email, data.password);
     }
   };
@@ -76,11 +79,13 @@ function Login() {
                 errors.password && "border-b-2 border-red-500"
               }`}
             />
-            {errors.password && (<> { setLoading(false)}<p className="p-1 text-[13px] font-light  text-red-500">
-                Your password must contain between 4 and 60 characters.
-              </p>
-            </>
-             
+            {errors.password && (
+              <>
+                {" "}
+                <p className="p-1 text-[13px] font-light  text-red-500">
+                  Your password must contain between 4 and 60 characters.
+                </p>
+              </>
             )}
           </label>
         </div>
@@ -105,4 +110,3 @@ function Login() {
 }
 
 export default Login;
-

@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLoading(false)
       } else {
         setUser(null)
-        setLoading(true)
+        setLoading(false)
         router.push(`/login`)
       }
       setInitalLoading(false)
@@ -64,19 +64,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await createUserWithEmailAndPassword(auth, email, password).then((userCredentials) => {
       setUser(userCredentials.user)
       router.push(`/user`)
-      setLoading(false)
+      setLoading(true)
     }).catch((error) => {
       setError(error)
       alert(error.message)
+      setLoading(false)
     }).finally(() => setLoading(false))
   }
 
   const signIn = async (email:string, password: string) => {
+    setLoading(true)
     await signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
       setUser(userCredentials.user)
+      setLoading(true)
       router.push(`/`)
-      setLoading(false)
     }).catch((error) => {
+      setLoading(false)
       setError(error)
       alert(error.message)
     }).finally(() => setLoading(false))
