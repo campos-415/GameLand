@@ -78,7 +78,8 @@ function Login() {
         await setDoc(doc(db, "users", user!.uid), {
           firstName: data.firstName,
           lastName: data.lastName,
-          userImage:"",
+          userImage:
+            "https://as2.ftcdn.net/v2/jpg/02/29/75/83/1000_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg",
         });
         if (selectedFile) {
           await uploadString(imageRef, selectedFile, "data_url").then(
