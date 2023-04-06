@@ -9,8 +9,8 @@ import { Game } from "../typings";
 import WelcomePage from "../components/WelcomePage";
 
 interface Props {
-  newGames: Game[] | null | DocumentData[];
-  classicGames: Game[] | null | DocumentData[];
+  newGames: Game[] | null 
+  classicGames: Game[] | null
 }
 
 const Home = ({ newGames, classicGames }: Props) => {

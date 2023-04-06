@@ -20,18 +20,22 @@ interface IAuth {
   user: User | null;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
+  signInAsGuest: (email: string, password: string) => Promise<void>;
   logOut: () => Promise<void>
   error: string | null
   loading: boolean
+  guest: boolean
 }
 
 const AuthContext = createContext<IAuth>({
   user: null,
   signUp: async () => { },
   signIn: async () => { },
+  signInAsGuest: async () => { },
   logOut: async () => { },
   error: null,
-  loading: false
+  loading: false,
+  guest: false,
 })
 
 interface AuthProviderProps {
@@ -40,6 +44,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false)
+  const [guest, setGuest] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState(null)
   const [initialLoading, setInitalLoading] = useState(true)
@@ -84,6 +89,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       alert(error.message)
     }).finally(() => setLoading(false))
   }
+  const signInAsGuest = async (email:string, password: string) => {
+    setGuest(true)
+    await signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
+      setUser(userCredentials.user)
+      setGuest(true)
+      router.push(`/`)
+    }).catch((error) => {
+      setGuest(false)
+      setError(error)
+      alert(error.message)
+    }).finally(() => setGuest(false))
+  }
 
   const logOut = async () => {
     setLoading(true)
@@ -99,9 +116,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     () => ({
       user,
       signIn,
+      signInAsGuest,
       signUp,
       logOut,
       loading,
+      guest,
       error,
     }),[user, loading]
   )

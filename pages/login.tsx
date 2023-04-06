@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { PacmanLoader } from "react-spinners";
 import useAuth from "../hooks/useAuth";
-import bgImage from "../public/assets/bgImage.jpeg";
+import bgImage from "../public/assets/bgImageL.jpeg";
 import { darkState } from "../atoms/statesAtom";
 
 interface Inputs {
@@ -14,7 +14,8 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState(false);
-  const { signIn, signUp, error, loading } = useAuth();
+  const [loginAsGuest, setLoginAsGuest] = useState(false);
+  const { signIn, signUp, guest, loading, signInAsGuest } = useAuth();
   // const [loading, setLoading] = useState(false);
   // console.log(error)
   const {
@@ -24,15 +25,12 @@ function Login() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (error) {
-      // setLoading(false);
-    }
 
     if (login) {
-      // setLoading(true);
       await signIn(data.email, data.password);
+    } else if (loginAsGuest) {
+      await signInAsGuest("guest@gl.com", "guestgl");
     } else {
-      // setLoading(true);
       await signUp(data.email, data.password);
     }
   };
@@ -62,7 +60,7 @@ function Login() {
               type="email"
               placeholder="Email"
               className={`input ${errors.email && "border-b-2 border-red-500"}`}
-              {...register("email", { required: true })}
+              {...register("email")}
             />
             {errors.email && (
               <p className="p-1 text-[13px] font-light  text-red-500">
@@ -73,7 +71,7 @@ function Login() {
           <label className="inline-block w-full">
             <input
               type="password"
-              {...register("password", { required: true })}
+              {...register("password")}
               placeholder="Password"
               className={`input ${
                 errors.password && "border-b-2 border-red-500"
@@ -83,17 +81,31 @@ function Login() {
               <>
                 {" "}
                 <p className="p-1 text-[13px] font-light  text-red-500">
-                  Your password must contain between 4 and 60 characters.
+                  Your password must contain between 6 and 60 characters.
                 </p>
               </>
             )}
           </label>
         </div>
         <button
-          className="w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white hover:text-[#5165e5]"
+          className={`w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white ${
+            loading ? "hover:bg-[#5156e5]" : ""
+          } hover:text-[#5165e5] flex items-center justify-center`}
           onClick={() => setLogin(true)}
           type="submit">
-          {loading ? <PacmanLoader color="black" size={12} /> : "Sign In"}
+          {login ? <PacmanLoader color="black" size={12} /> : "Sign In"}
+        </button>
+        <button
+          className={`w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white ${
+            loading ? "hover:bg-[#5156e5]" : ""
+          } hover:text-[#5165e5] flex items-center justify-center`}
+          onClick={() => setLoginAsGuest(true)}
+          type="submit">
+          {loginAsGuest ? (
+            <PacmanLoader color="black" size={12} />
+          ) : (
+            "Sign In as Guest"
+          )}
         </button>
         <div className="text-[gray]">
           New to GameLand?{" "}
