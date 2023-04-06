@@ -18,7 +18,7 @@ const Tags = ({ tags }: Props) => {
         sideBar && "!h-screen overflow-hidden"
       }`}>
       <Head>
-        <title>Master Player - Tags</title>
+        <title>Game Land - Tags</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

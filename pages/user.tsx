@@ -105,7 +105,7 @@ function Login() {
         dark ? " bg-[#141414]" : "bg-white"
       } ${sideBar && "!h-screen overflow-hidden"}`}>
       <Head>
-        <title>GameLand</title>
+        <title>GameLand - { !User ? "Create User" : "Update User" }</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {User ? (

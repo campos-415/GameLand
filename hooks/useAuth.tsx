@@ -24,6 +24,7 @@ interface IAuth {
   logOut: () => Promise<void>
   error: string | null
   loading: boolean
+  signUpLoading: boolean
   guest: boolean
 }
 
@@ -35,6 +36,7 @@ const AuthContext = createContext<IAuth>({
   logOut: async () => { },
   error: null,
   loading: false,
+  signUpLoading: false,
   guest: false,
 })
 
@@ -44,6 +46,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false)
+  const [signUpLoading, setSignUpLoading] = useState(false)
   const [guest, setGuest] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [error, setError] = useState(null)
@@ -65,29 +68,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [auth])
   
   const signUp = async (email:string, password: string)  => {
-    setLoading(true)
-    await createUserWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-      setUser(userCredentials.user)
-      router.push(`/user`)
-      setLoading(true)
-    }).catch((error) => {
-      setError(error)
-      alert(error.message)
-      setLoading(false)
-    }).finally(() => setLoading(false))
+    setSignUpLoading(true)
+    await createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredentials) => {
+        setUser(userCredentials.user);
+        router.push(`/user`);
+      })
+      .catch((error) => {
+        setError(error);
+        alert(error.message);
+        setSignUpLoading(false);
+      }).finally(() => setSignUpLoading(true));
   }
 
   const signIn = async (email:string, password: string) => {
     setLoading(true)
     await signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-      setUser(userCredentials.user)
       setLoading(true)
+      setUser(userCredentials.user)
       router.push(`/`)
     }).catch((error) => {
       setLoading(false)
       setError(error)
       alert(error.message)
-    }).finally(() => setLoading(false))
+    })
   }
   const signInAsGuest = async (email:string, password: string) => {
     setGuest(true)
@@ -120,6 +124,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       signUp,
       logOut,
       loading,
+      signUpLoading,
       guest,
       error,
     }),[user, loading]

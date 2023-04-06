@@ -15,7 +15,7 @@ const Creators = ({ creators }: Props) => {
   return (
     <div className={` h-full ${dark ? " bg-[#141414]" : "bg-white"}`}>
       <Head>
-        <title>Master Player - Creators</title>
+        <title>Game Land- Creators</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

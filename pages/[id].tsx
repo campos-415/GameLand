@@ -132,7 +132,7 @@ function Game() {
   return (
     <>
       <Head>
-        <title>Master Player - {games?.name}</title>
+        <title>Game Land - {games?.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

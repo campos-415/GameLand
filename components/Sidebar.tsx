@@ -41,7 +41,7 @@ function Sidebar() {
       <div
         className={
           sideBar
-            ? `fixed top-0 right-0 w-[50%] sm:w-[40%] md:w-[45%]
+            ? `fixed top-0 right-0 w-[50%] sm:w-[40%] md:w-[35%] xl:w-[25%]
          h-screen ease-in-out duration-500 ${
            dark ? "bg-[#141414]" : "bg-white"
          }`

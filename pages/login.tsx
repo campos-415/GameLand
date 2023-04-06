@@ -6,6 +6,7 @@ import { PacmanLoader } from "react-spinners";
 import useAuth from "../hooks/useAuth";
 import bgImage from "../public/assets/bgImageL.jpeg";
 import { darkState } from "../atoms/statesAtom";
+import { Oval } from "react-loader-spinner";
 
 interface Inputs {
   email: string;
@@ -15,9 +16,9 @@ interface Inputs {
 function Login() {
   const [login, setLogin] = useState(false);
   const [loginAsGuest, setLoginAsGuest] = useState(false);
+  const [signUpLoading, setSignUpLoading] = useState(false);
   const { signIn, signUp, guest, loading, signInAsGuest } = useAuth();
-  // const [loading, setLoading] = useState(false);
-  // console.log(error)
+  
   const {
     register,
     handleSubmit,
@@ -25,7 +26,6 @@ function Login() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-
     if (login) {
       await signIn(data.email, data.password);
     } else if (loginAsGuest) {
@@ -38,7 +38,7 @@ function Login() {
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
       <Head>
-        <title>GameLand</title>
+        <title>GameLand - Login/SignUp</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -93,7 +93,7 @@ function Login() {
           } hover:text-[#5165e5] flex items-center justify-center`}
           onClick={() => setLogin(true)}
           type="submit">
-          {login ? <PacmanLoader color="black" size={12} /> : "Sign In"}
+          {loading ? <PacmanLoader color="black" size={12} /> : "Sign In"}
         </button>
         <button
           className={`w-full rounded bg-[#5165e5] py-3 font-semibold hover:bg-white ${
@@ -107,14 +107,30 @@ function Login() {
             "Sign In as Guest"
           )}
         </button>
-        <div className="text-[gray]">
+        <div className="text-[gray] flex items-start space-x-2 ">
           New to GameLand?{" "}
           <button
             className="cursor-pointer text-white hover:underline hover:text-[#5165e5]"
-            onClick={() => setLogin(false)}
+            onClick={() => {
+              setLogin(false);
+              setSignUpLoading(true);
+            }}
             type="submit">
-            Sign up now
+            Sign up now{" "}
           </button>
+          <span>
+            {signUpLoading ?? (
+              <Oval
+                ariaLabel="loading-indicator"
+                height={30}
+                width={30}
+                strokeWidth={10}
+                strokeWidthSecondary={5}
+                color="#5165e5"
+                secondaryColor="transparent"
+              />
+            )}
+          </span>
         </div>
       </form>
     </div>
